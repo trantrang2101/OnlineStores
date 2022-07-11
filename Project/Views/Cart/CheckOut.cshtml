@@ -1,0 +1,143 @@
+﻿@using Project.Models
+@using Project.ADO
+@model dynamic
+@using Microsoft.AspNetCore.Http;
+@using Newtonsoft.Json;
+@{
+    double totalPrice = 0;
+    bool allowPrepay = true;
+    if (Context.Session.GetString("user") == null)
+    {
+        Layout = "_LayoutRestaurant";
+    }
+    else
+    {
+        Layout = "_LayoutLogin";
+    }
+    ViewBag.Title = "Thanh Toán";
+}
+<div class="d-flex justify-content-between align-items-center py-3">
+    <h1 class="h1">Giỏ hàng</h1>
+    <a href="/Cart/CheckOut" class="btn btn-primary">Thanh Toán</a>
+</div>
+<div class="row">
+    <div class="col-md-5 col-lg-4">
+            @foreach(int res in Model.Cart.Keys)
+            {
+                double price = 0;
+            Restaurant restaurant = RestaurantADO.GetRestaurant(res, true);
+            if (String.IsNullOrEmpty(restaurant.AccountNumber) || string.IsNullOrEmpty(restaurant.Bank))
+            {
+                allowPrepay = false;
+            }
+            <div class="card mt-5">
+                    <div class="card-body">
+                        <a href="/Restaurant/Detail/@res" class="card-title h5">@restaurant.Name</a>
+                        <hr>
+                        <ul class="list-group list-group-flush">
+                            @foreach (Product p in Model.Cart[res].Keys)
+                        {
+                            price += p.Price * Model.Cart[res][p];
+                            <li class="list-group-item row pt-2">
+                                @if(p.ProductImages!=null&&p.ProductImages.Count()>0){
+                                    <div class="col-xl-3 col-md-6"><img src="~/img/product/@p.Id/@p.ProductImages[0]"/></div>
+                                    <div class="col-xl-9 col-md-6">
+                                        <h6 class="card-subtitle mb-2 text-muted">@p.Name</h6>
+                                        <p class="card-text">@p.Description</p>
+                                        <div class="text-muted d-flex justify-content-between align-items-center">
+                                            <span class="price">@p.Price</span>
+                                            <span>x @Model.Cart[res][p]</span>
+                                        </div>
+                                    </div>
+                                }else{
+                                    <div class="col-xl-9 col-md-6 offset-xl-3 offset-md-6">
+                                        <h6 class="card-subtitle mb-2 text-muted">@p.Name</h6>
+                                        <p class="card-text">@p.Description</p>
+                                        <div class="text-muted d-flex justify-content-between align-items-center">
+                                            <span class="price">@p.Price</span>
+                                            <span>x @Model.Cart[res][p]</span>
+                                        </div>
+                                    </div>
+                                }
+                            </li>
+                        }
+                        </ul>
+                    </div>
+                    <div class="card-footer d-flex justify-content-end align-items-end">@price</div>
+                </div>
+                totalPrice += price;
+            }
+    </div>
+    <div class="col-md-7 col-lg-8">
+        <h4 class="mb-3">Billing address</h4>
+        <form class="needs-validation" novalidate="">
+          <div class="row g-3">
+            <div class="col-12">
+              <label for="fullName" class="form-label">Full name</label>
+              <input type="text" class="form-control" id="fullName" placeholder="" value="" required="">
+              <div class="invalid-feedback">
+                Valid full name is required.
+              </div>
+            </div>
+            <div class="col-6">
+              <label for="email" class="form-label">Email <span class="text-muted">(Optional)</span></label>
+              <input type="email" class="form-control" id="email" placeholder="you@example.com">
+              <div class="invalid-feedback">
+                Please enter a valid email address for shipping updates.
+              </div>
+            </div>
+            <div class="col-6">
+              <label for="phone" class="form-label">Phone</label>
+              <input type="email" class="form-control" id="phone" required placeholder="0123456789">
+              <div class="invalid-feedback">
+                Please enter a valid phone for shipping updates.
+              </div>
+            </div>
+
+            <div class="col-12">
+              <label for="address" class="form-label">Address</label>
+              <input type="text" class="form-control" id="address" placeholder="1234 Main St" required="">
+              <div class="invalid-feedback">
+                Please enter your shipping address.
+              </div>
+            </div>
+          </div>
+
+          <hr class="my-4">
+
+          <h4 class="mb-3">Payment</h4>
+
+          <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+            <input type="radio" class="btn-check" @(allowPrepay==true?"":"disabled=''") name="isPrepay" id="prepay" autocomplete="off">
+            <label class="btn btn-outline-primary" for="prepay">Prepayment</label>
+
+            <input type="radio" class="btn-check" name="isPrepay" id="cod" autocomplete="off" checked>
+            <label class="btn btn-outline-primary" for="cod">Cash On Delivery</label>
+        </div>
+          <div class="row mb-3" id="prepayDetail" style="display: none;">
+              @foreach(int res in Model.Cart.Keys)
+            {
+                Restaurant restaurant = RestaurantADO.GetRestaurant(res, true);
+                double price = 0;
+                <div class="row-xl-6 card">
+                  <div class="card-body">
+                    <h5 class="card-title">@restaurant.Name</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">@restaurant.Bank</h6>
+                    <p class="card-text">@restaurant.AccountNumber</p>
+                    @foreach (Product product in Model.Cart[res].Keys)
+                            {
+                                price += product.Price * Model.Cart[res][product];
+                            }
+                    <p class="card-text price">@price</p>
+                  </div>
+                </div>
+              }
+          </div>
+          <hr class="my-4">
+          <h4 class="mb-3">Total Price: <span class="text-muted price">@totalPrice</span></h4>
+          <hr class="my-4">
+
+          <button class="w-100 btn btn-primary btn-lg" type="submit">Continue to checkout</button>
+        </form>
+      </div>
+</div>

@@ -1,0 +1,66 @@
+﻿@using Project.Models
+@using Project.ADO
+@model dynamic
+@using Microsoft.AspNetCore.Http;
+@using Newtonsoft.Json;
+@{
+    double price = 0;
+    if (Context.Session.GetString("user") == null)
+    {
+        Layout = "_LayoutRestaurant";
+    }
+    else
+    {
+        Layout = "_LayoutLogin";
+    }
+    ViewBag.Title = "Giỏ hàng";
+}
+<div class="d-flex justify-content-between align-items-center py-3">
+    <h1 class="h1">Giỏ hàng</h1>
+    @if (Model.Cart != null && Model.Cart.Count != 0)
+    {
+        <a href="/Cart/CheckOut" class="btn btn-primary">Thanh Toán</a>
+    }
+</div>
+<div class="card-body table-responsive">
+    <table class="table table-striped table-hover table-bordered padding-0">
+        <thead class="table-primary">
+            <tr>
+                <th>Cửa hàng</th>
+                <th>Tên Sản Phẩm</th>
+                <th>Số Lượng</th>
+                <th colspan="2">Giá tiền</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(int res in Model.Cart.Keys)
+            {
+                <tr>
+                        <th class="table-primary text-center"  style="vertical-align : middle;text-align:center;" rowspan="@(Model.Cart[res].Count+1)">@RestaurantADO.GetRestaurant(res, true).Name</th>
+                </tr>
+                @foreach (Product p in Model.Cart[res].Keys)
+                {
+                    price = price + Model.Cart[res][p] * p.Price;
+                    <tr>
+                        <td class="text-capitalize">@p.Name<br /><span class="fs-6 fw-light text-muted">@p.Description</span></td>
+                    <td>
+                        <form action="/Cart/Update/@p.Id" method="post">
+                            <input type="number" value="@Model.Cart[res][p]" name="quantity" onchange="this.form.submit()" class="bg-transparent border-0 w-100">
+                        </form>
+                    </td>
+                    <td class="price">@p.Price</td>
+                    <td><a href="/Cart/Remove/@p.Id">Remove</a></td>
+                </tr>
+                }
+            }
+        </tbody>
+        @if(Model.Cart!=null&&Model.Cart.Count>0){
+        <tfoot>
+            <tr class="table-primary">
+                <th colspan="3">Total Price</th>
+                <th colspan="2" class="font-weight-bold price">@price</th>
+            </tr>
+        </tfoot>
+        }
+    </table>
+</div>

@@ -1,0 +1,37 @@
+﻿@using Project.Models
+@using Microsoft.AspNetCore.Http;
+@using Newtonsoft.Json;
+@model dynamic
+@{    
+    if (Context.Session.GetString("user") == null)
+    {
+        Layout = "_LayoutRestaurant";
+    }
+    else
+    {
+        Layout = "_LayoutLogin";
+    }
+    ViewBag.Title = "Cửa hàng";
+}
+    <div class="row">
+        @foreach(Restaurant res in Model.List)
+        {
+            <div class="col-12 col-md-6 col-xl-4 p-5 mt-3">
+                <a href="/Restaurant/Detail/@res.Id">
+                    <img src="~/img/restaurant/@res.Id/@res.Logo" class="rounded-circle img-fluid border">
+                </a>
+                <h5 class="text-center mt-3 mb-3">@res.Name</h5>
+                <p class="text-center"><a href="/Restaurant/Detail/@res.Id" class="btn btn-outline-primary">Go Shop</a></p>
+            </div>
+        }
+    </div>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            <li class="page-item @(Model.Page - 1 >= 0?"":"disabled")">
+                <a href="/Restaurant/List/@(Model.Page-1)" class="page-link">Previous</a>
+            </li>
+            <li class="page-item @(Model.Page + 1 < Math.Ceiling(Model.Count*1.0/16)?"":"disabled")">
+                <a href="/Restaurant/List/@(Model.Page+1)" class="page-link">Next</a>
+            </li>
+    </ul>
+    </nav>

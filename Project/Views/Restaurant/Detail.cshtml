@@ -1,0 +1,65 @@
+﻿@using Project.Models
+@model dynamic
+@using Microsoft.AspNetCore.Http;
+@using Newtonsoft.Json;
+@{
+    Layout = "_LayoutRestaurant";
+    ViewBag.Title = Model.Restaurant.Name;
+}
+        <div class="row text-center py-3">
+            <div class="col-lg-6 m-auto">
+                <h1 class="h1">@(((IDictionary<string, object>)Model).ContainsKey("Category")?Model.Category.Name:Model.Restaurant.Name)</h1>
+                <p>@(((IDictionary<string, object>)Model).ContainsKey("Category")?Model.Category.Description:Model.Restaurant.Description)</p>
+            </div>
+        </div>
+        <div class="row">
+        @foreach(Product p in Model.List)
+        {
+            <div class="col-12 col-md-6 col-xl-3 mb-4">
+                <div class="card h-100">
+                    <a href="shop-single.html">
+                        @*<img src="@p.ProductImages(true).ToList()[0].Image" class="card-img-top" alt="...">*@
+                    </a>
+                    <div class="card-body">
+                        <ul class="list-unstyled d-flex justify-content-between">
+                            <li>
+                                <i class="text-warning fa fa-star"></i>
+                                <i class="text-warning fa fa-star"></i>
+                                <i class="text-warning fa fa-star"></i>
+                                <i class="text-muted fa fa-star"></i>
+                                <i class="text-muted fa fa-star"></i>
+                            </li>
+                            <li class="text-muted text-right price">@p.Price</li>
+                        </ul>
+                        <a href="shop-single.html" class="text-decoration-none text-lowercase text-capitalize h4 text-dark">@p.Name</a>
+                        <p class="card-text">@p.Description</p>
+                        <p class="text-muted"><a href="/Cart/Add/@p.Id">Add to Cart</a></p>
+                    </div>
+                </div>
+            </div>
+        }
+        </div>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+        <li class="page-item @(Model.Page - 1 >= 0?"":"disabled")">
+                @if (((IDictionary<string, object>)Model).ContainsKey("Category"))
+                {
+                    <a href="/Restaurant/Detail/@Model.Restaurant.Id/@Model.Category.Id/@(Model.Page-1)" class="page-link">Previous</a>
+                }
+                else
+                {
+                    <a href="/Restaurant/Detail/@Model.Restaurant.Id/0/@(Model.Page-1)" class="page-link">Previous</a>                
+                }
+        </li>
+        <li class="page-item @(Model.Page + 1 < Math.Ceiling(Model.Count*1.0/16)?"":"disabled")">
+                @if (((IDictionary<string, object>)Model).ContainsKey("Category"))
+                {
+                    <a href="/Restaurant/Detail/@Model.Restaurant.Id/@Model.Category.Id/@(Model.Page+1)" class="page-link">Next</a>
+                }
+                else
+                {
+                    <a href="/Restaurant/Detail/@Model.Restaurant.Id/0/@(Model.Page+1)" class="page-link">Next</a>                
+                }
+        </li>
+    </ul>
+    </nav>

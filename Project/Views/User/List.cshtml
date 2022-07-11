@@ -1,0 +1,71 @@
+﻿@using Project.Models
+@model dynamic
+@using Microsoft.AspNetCore.Http;
+@using Newtonsoft.Json;
+@{
+Layout = "_LayoutLogin";
+ViewBag.Title = "Danh sách người dùng";
+}
+<div class="card-body table-responsive">
+    <table class="table table-striped table-hover table-bordered padding-0">
+        <thead class="table-primary">
+            <tr>
+                <th>Full Name</th>
+                <th>Email</th>
+                <th>Status</th>
+                <th colspan="2" class="text-center">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(User user in Model.List)
+            {
+            <tr>
+                <td>
+                    <div class="d-flex align-items-center">
+                        <div class="avatar me-2"><img class="avatar-img img-fluid" src="@user.Avatar" />
+                        </div>
+                        @user.FullName
+                    </div>
+                </td>
+                <td>@user.Email</td>
+                <td>@(user.Gender==true?"Male":"Female")</td>
+                <td class="text-center form-switch">
+                    <a data-bs-toggle="modal" href="#updateStatus_@user.Id">
+                        <input class="form-check-input" style="margin-left:5px;" name="status" type="checkbox"
+                            @(user.IsActive==true?"checked":"") />
+                    </a>
+                </td>
+                <td class="text-center">
+                    <a class="btn btn-outline-primary me-2" href="user/detail/@user.Id"><i data-feather="edit"></i></a>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+    @foreach(User user in Model.List)
+            {
+            <div class="modal fade" id="updateStatus_@user.Id" tabindex="-1" aria-labelledby="updateStatus_@user.Id"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">
+                                @(user.IsActive==true?"Deactive":"Active") user
+                                @user.FullName</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Select "Change" below if you are ready to
+                            @(user.IsActive==true?"deactive":"active") this user
+                            @user.FullName.
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                            <a href="user?service=changeStatus&id=${userChoose.getUser_id()}&status=${userChoose.isStatus()}"
+                                class="btn btn-primary">Change</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            }
+</div>

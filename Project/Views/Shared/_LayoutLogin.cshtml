@@ -1,0 +1,161 @@
+﻿@using Project.Models
+@using System.Collections
+@using Microsoft.AspNetCore.Http;
+@using Newtonsoft.Json;
+@model dynamic
+@{
+    string user = Context.Session.GetString("user");
+}
+<!doctype html>
+<html lang="en" class="h-100">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="~/css/style.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <script src="https://unpkg.com/feather-icons"></script>
+    <link rel="shortcut icon" href="~/img/favicon.png" type="image/x-icon" />
+    <script src="~/js/script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <title>@ViewBag.Title</title>
+</head>
+
+<body class="h-100">
+    <div class="row h-100 w-100 padding-0 margin-0">
+        <div class="col-2 d-flex flex-column flex-shrink-0 p-3 bg-light h-100" id="sidebar">
+            <a href="/Restaurant/List" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+                <img src="~/img/favicon.png" alt="" width="150" height="150" class="rounded-circle d-flex align-items-center me-2">
+            </a>
+                @if (Context.Session.GetString("features") != null)
+                {
+                    <hr>
+                    <ul class="nav nav-pills flex-column mb-auto">
+                    @foreach (Feature feature in JsonConvert.DeserializeObject<List<Feature>>(Context.Session.GetString("features")))
+                    {
+                        <li class="nav-item">
+                            <a href="/@feature.Title/List" class="nav-link d-flex" aria-current="page">
+                                <i data-feather="@feature.Icon" class="mr-6"></i>
+                                <p>@feature.Title</p>
+                            </a>
+                        </li>
+                    }
+                    </ul>
+                }
+                else
+                {
+                    <div class="mb-auto"></div>
+                }
+                <hr>
+                @if(user==null)
+                {
+                <button type="button" class="btn btn-outline-primary mt-3" data-bs-toggle="modal"
+                    data-bs-target="#login">
+                    Login
+                </button>
+                }else{
+                <div class="dropdown">
+                    <input type="text" id="jsonUser" hidden value="@user"/>
+                    <a href="#"
+                        class="d-flex align-items-center justify-content-between mt-4 link-dark text-decoration-none dropdown-toggle"
+                        id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
+                        <strong id="userName">@user</strong>
+                    </a>
+                    <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
+                        <li><a class="dropdown-item" href="#">New project...</a></li>
+                        <li><a class="dropdown-item" href="#">Settings</a></li>
+                        <li><a class="dropdown-item" href="#">Profile</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#logout">Logout</button></li>
+                    </ul>
+                </div>
+                }
+        </div>
+        <main class="col-10 padding-0 margin-0 ms-auto">
+            <header class="bd-header bg-dark py-3 d-flex align-items-stretch border-bottom border-dark">
+                <div class="container-fluid d-flex align-items-center">
+                    <div class="d-flex align-items-center fs-4 text-white mb-0">
+                        <a class="d-flex non-underline align-items-center text-white" style="text-decoration: none;" href="/restaurant/list">
+                            <img src='~/img/favicon.png' width="50" height="50" class="me-3" alt='Online Shopping'>
+                            <h1>Online Shopping</h1>
+                        </a>
+                    </div>
+                    <a href='/Cart/List' class="ms-auto link-light border-0" hreflang="ar"><i
+                            data-feather="shopping-cart"></i></a>
+                </div>
+            </header>
+            <div class="container container-fluid" style="margin-top:20px; margin-bottom: 20px;">
+                @RenderBody()
+            </div>
+        </main>
+    </div>
+    <div class="modal fade" id="logout" tabindex="1050" aria-labelledby="logout" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Sign out</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="/User/logout" method="post">
+                    <div class="modal-body mx-3">Select "Logout" below if you are ready to end your current session.</div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-danger">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="login" tabindex="1050" aria-labelledby="login" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Sign in</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="/User/Login" method="post">
+                    <div class="modal-body mx-3">
+                        <div class="wrap-form-field">
+                            <div class="form-group group-width-icon">
+                                <i data-feather="mail"></i>
+                                <input class="form-control" placeholder="Email" autofocus="" type="text" data-val="true"
+                                    data-val-required="Username is required" required="" id="Username" name="Username"
+                                    maxlength="40" value="">
+                            </div>
+                            <span class="text-danger field-validation-valid" data-valmsg-for="Username"
+                                data-valmsg-replace="true"></span>
+                        </div>
+                        <div class="wrap-form-field">
+                            <div class="form-group group-width-icon">
+                                <i data-feather="lock"></i>
+                                <input type="password" id="passwordLogin" class="form-control" placeholder="Password"
+                                    autocomplete="off" data-val="true" data-val-required="Password is required"
+                                    required="" maxlength="40" name="Password" value="">
+                                <label for="passwordLogin" onclick="showPassword(this)">
+                                    <i class="fa-solid fa-eye eye-icon"></i>
+                                </label>
+                            </div>
+                            <span class="text-danger field-validation-valid" data-valmsg-for="Password"
+                                data-valmsg-replace="true"></span>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        feather.replace();
+        var user = JSON.parse(document.getElementById('jsonUser').value);
+        document.getElementById('userName').innerHTML = user.FullName;
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
