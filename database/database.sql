@@ -41,6 +41,7 @@ CREATE TABLE [dbo].[user](
 	[gender] [bit]  default 1,
 	[is_admin] [bit] default 0,
 	[is_active] [bit] default 1,
+	[address] [text] default null,
 	[created_at] [datetime] default getDate(),
 	[updated_at] [datetime] NULL,
 	[avatar] [varchar](255) NULL
@@ -112,12 +113,14 @@ CREATE TABLE [dbo].[bill](
 	[is_takeAway] bit default 0,
 	[is_transfer] bit default 0,
 	status int not null,
+	[createdAt] datetime default getDate(),
 	FOREIGN KEY ([servered_by]) REFERENCES [user]([Id]),
 	FOREIGN KEY ([status]) REFERENCES [bill_status]([Id])
 )
 CREATE TABLE [dbo].[bill_takeAway](
 	[billId] int NOT NULL,
 	[customerId] int null,
+	[fullName] nvarchar(255) not null,
 	[address] nvarchar(255) not null,
 	[phone] nvarchar(20) not null,
 	[shipperId] int null,
@@ -129,6 +132,7 @@ CREATE TABLE [dbo].[bill_detail](
 	[billId] int NOT NULL,
 	[productId] int not null,
 	[quantity] int not null,
+	[price] float not null,
 	FOREIGN KEY ([productId]) REFERENCES [product]([Id]),
 	FOREIGN KEY ([billId]) REFERENCES [bill]([Id])
 )
@@ -242,37 +246,37 @@ INSERT INTO [dbo].[permission_action]
 GO
 INSERT INTO [dbo].[user]([email],[password],[full_name],[is_admin])
      VALUES
-           ('admin@gmail.com','12345678','Admin',1)
+           ('admin@gmail.com','$2a$11$cuQ2l7tazFEyL5jvBnssPuU5gE51fEMCV0225Tj1jzk2RX1xecQfe','Admin',1)
 INSERT INTO [dbo].[user]([email],[password],[full_name])
      VALUES
-           ('owner1@gmail.com','12345678','Owner 1'),
-           ('owner2@gmail.com','12345678','Owner 2'),
-           ('owner3@gmail.com','12345678','Owner 3'),
-           ('owner4@gmail.com','12345678','Owner 4'),
-           ('owner5@gmail.com','12345678','Owner 5'),
-           ('owner6@gmail.com','12345678','Owner 6'),
-           ('owner7@gmail.com','12345678','Owner 7'),
-           ('customer1@gmail.com','12345678','customer 1'),
-           ('customer2@gmail.com','12345678','customer 2'),
-           ('customer3@gmail.com','12345678','customer 3'),
-           ('customer4@gmail.com','12345678','customer 4'),
-           ('customer5@gmail.com','12345678','customer 5'),
-           ('customer6@gmail.com','12345678','customer 6'),
-           ('customer7@gmail.com','12345678','customer 7'),
-           ('shipper1@gmail.com','12345678','shipper 1'),
-           ('shipper2@gmail.com','12345678','shipper 2'),
-           ('shipper3@gmail.com','12345678','shipper 3'),
-           ('shipper4@gmail.com','12345678','shipper 4'),
-           ('shipper5@gmail.com','12345678','shipper 5'),
-           ('shipper6@gmail.com','12345678','shipper 6'),
-           ('shipper7@gmail.com','12345678','shipper 7'),
-           ('waiter1@gmail.com','12345678','waiter 1'),
-           ('waiter2@gmail.com','12345678','waiter 2'),
-           ('waiter3@gmail.com','12345678','waiter 3'),
-           ('waiter4@gmail.com','12345678','waiter 4'),
-           ('waiter5@gmail.com','12345678','waiter 5'),
-           ('waiter6@gmail.com','12345678','waiter 6'),
-           ('waiter7@gmail.com','12345678','waiter 7')
+           ('owner1@gmail.com','$2a$11$cuQ2l7tazFEyL5jvBnssPuU5gE51fEMCV0225Tj1jzk2RX1xecQfe','Owner 1'),
+           ('owner2@gmail.com','$2a$11$cuQ2l7tazFEyL5jvBnssPuU5gE51fEMCV0225Tj1jzk2RX1xecQfe','Owner 2'),
+           ('owner3@gmail.com','$2a$11$cuQ2l7tazFEyL5jvBnssPuU5gE51fEMCV0225Tj1jzk2RX1xecQfe','Owner 3'),
+           ('owner4@gmail.com','$2a$11$cuQ2l7tazFEyL5jvBnssPuU5gE51fEMCV0225Tj1jzk2RX1xecQfe','Owner 4'),
+           ('owner5@gmail.com','$2a$11$cuQ2l7tazFEyL5jvBnssPuU5gE51fEMCV0225Tj1jzk2RX1xecQfe','Owner 5'),
+           ('owner6@gmail.com','$2a$11$cuQ2l7tazFEyL5jvBnssPuU5gE51fEMCV0225Tj1jzk2RX1xecQfe','Owner 6'),
+           ('owner7@gmail.com','$2a$11$cuQ2l7tazFEyL5jvBnssPuU5gE51fEMCV0225Tj1jzk2RX1xecQfe','Owner 7'),
+           ('customer1@gmail.com','$2a$11$cuQ2l7tazFEyL5jvBnssPuU5gE51fEMCV0225Tj1jzk2RX1xecQfe','customer 1'),
+           ('customer2@gmail.com','$2a$11$cuQ2l7tazFEyL5jvBnssPuU5gE51fEMCV0225Tj1jzk2RX1xecQfe','customer 2'),
+           ('customer3@gmail.com','$2a$11$cuQ2l7tazFEyL5jvBnssPuU5gE51fEMCV0225Tj1jzk2RX1xecQfe','customer 3'),
+           ('customer4@gmail.com','$2a$11$cuQ2l7tazFEyL5jvBnssPuU5gE51fEMCV0225Tj1jzk2RX1xecQfe','customer 4'),
+           ('customer5@gmail.com','$2a$11$cuQ2l7tazFEyL5jvBnssPuU5gE51fEMCV0225Tj1jzk2RX1xecQfe','customer 5'),
+           ('customer6@gmail.com','$2a$11$cuQ2l7tazFEyL5jvBnssPuU5gE51fEMCV0225Tj1jzk2RX1xecQfe','customer 6'),
+           ('customer7@gmail.com','$2a$11$cuQ2l7tazFEyL5jvBnssPuU5gE51fEMCV0225Tj1jzk2RX1xecQfe','customer 7'),
+           ('shipper1@gmail.com','$2a$11$cuQ2l7tazFEyL5jvBnssPuU5gE51fEMCV0225Tj1jzk2RX1xecQfe','shipper 1'),
+           ('shipper2@gmail.com','$2a$11$cuQ2l7tazFEyL5jvBnssPuU5gE51fEMCV0225Tj1jzk2RX1xecQfe','shipper 2'),
+           ('shipper3@gmail.com','$2a$11$cuQ2l7tazFEyL5jvBnssPuU5gE51fEMCV0225Tj1jzk2RX1xecQfe','shipper 3'),
+           ('shipper4@gmail.com','$2a$11$cuQ2l7tazFEyL5jvBnssPuU5gE51fEMCV0225Tj1jzk2RX1xecQfe','shipper 4'),
+           ('shipper5@gmail.com','$2a$11$cuQ2l7tazFEyL5jvBnssPuU5gE51fEMCV0225Tj1jzk2RX1xecQfe','shipper 5'),
+           ('shipper6@gmail.com','$2a$11$cuQ2l7tazFEyL5jvBnssPuU5gE51fEMCV0225Tj1jzk2RX1xecQfe','shipper 6'),
+           ('shipper7@gmail.com','$2a$11$cuQ2l7tazFEyL5jvBnssPuU5gE51fEMCV0225Tj1jzk2RX1xecQfe','shipper 7'),
+           ('waiter1@gmail.com','$2a$11$cuQ2l7tazFEyL5jvBnssPuU5gE51fEMCV0225Tj1jzk2RX1xecQfe','waiter 1'),
+           ('waiter2@gmail.com','$2a$11$cuQ2l7tazFEyL5jvBnssPuU5gE51fEMCV0225Tj1jzk2RX1xecQfe','waiter 2'),
+           ('waiter3@gmail.com','$2a$11$cuQ2l7tazFEyL5jvBnssPuU5gE51fEMCV0225Tj1jzk2RX1xecQfe','waiter 3'),
+           ('waiter4@gmail.com','$2a$11$cuQ2l7tazFEyL5jvBnssPuU5gE51fEMCV0225Tj1jzk2RX1xecQfe','waiter 4'),
+           ('waiter5@gmail.com','$2a$11$cuQ2l7tazFEyL5jvBnssPuU5gE51fEMCV0225Tj1jzk2RX1xecQfe','waiter 5'),
+           ('waiter6@gmail.com','$2a$11$cuQ2l7tazFEyL5jvBnssPuU5gE51fEMCV0225Tj1jzk2RX1xecQfe','waiter 6'),
+           ('waiter7@gmail.com','$2a$11$cuQ2l7tazFEyL5jvBnssPuU5gE51fEMCV0225Tj1jzk2RX1xecQfe','waiter 7')
 GO
 INSERT INTO [dbo].[restaurant]
            ([name],[ownerId],[address],[is_active])
@@ -555,4 +559,11 @@ INSERT INTO [dbo].[product]
 
 GO
 
+INSERT INTO [dbo].[bill_status]
+           ([name],[status])
+     VALUES
+           (N'Pending',1),(N'Paying',1),(N'Checking',1),(N'Preparing',1),(N'Shipping',1),(N'Done',1)
+GO
 
+UPDATE [dbo].[restaurant] set bank=N'Ngân hàng Quân đội Nhân Dân Việt Nam - MB Bank', accountNumber='3300123456333' where Id=1
+UPDATE [dbo].[restaurant] set bank=N'Ngân hàng Thương mại cổ phần Công Thương Việt Nam - Vietinbank', accountNumber='105873255144' where Id=3

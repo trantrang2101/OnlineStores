@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Project.Models;
 using System;
-using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 
@@ -42,7 +41,7 @@ namespace Project.Controllers
         public IActionResult List(int page)
         {
             String user = HttpContext.Session.GetString("user");
-            if(user != null)
+            if (user != null)
             {
                 User login = JsonConvert.DeserializeObject<User>(user);
                 if (login.Permission.Features.First(x => x.Title.ToLower().Equals("user")) != null)

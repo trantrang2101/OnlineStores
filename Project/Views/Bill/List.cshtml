@@ -1,0 +1,28 @@
+﻿@using Project.Models
+@model dynamic
+@using Microsoft.AspNetCore.Http;
+@using Newtonsoft.Json;
+@{
+Layout = "_LayoutLogin";
+ViewBag.Title = "Danh sách hóa đơn";
+}
+<div class="accordion w-100" id="basicAccordion">
+    @foreach (Bill bill in Model.List)
+   {
+       <div class="accordion-item">
+           <h2 class="accordion-header" id="heading(@bill.Id)">
+                <button class="accordion-button collapsed d-flex justify-content-between align-items-center" type="button" data-mdb-toggle="collapse" data-mdb-target="#basicAccordionBill@(bill.Id)" aria-expanded="false" aria-controls="collapseOne">
+                    <h3>@bill.Restaurant.Name</h3>
+                    <div class="d-flex flex-column justify-content-between align-items-center">
+                        <h6>@bill.CreatedAt.ToString("MMM dd, yyyy")</h6>
+                    </div>
+                </button>
+           </h2>
+           <div id="basicAccordionBill@(bill.Id)" class="accordion-collapse collapse" aria-labelledby="heading(@bill.Id)" data-mdb-parent="#basicAccordion" style="">
+                <div class="accordion-body">
+
+                </div>
+           </div>
+       </div>
+   }
+</div>

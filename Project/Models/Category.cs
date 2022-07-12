@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
 
 #nullable disable
@@ -28,7 +27,7 @@ namespace Project.Models
         public virtual Restaurant Restaurant { get { return ADO.RestaurantADO.GetRestaurant(RestaurantId, null); } }
         public virtual ICollection<Product> GetProducts(bool? valid)
         {
-            return ADO.ProductADO.GetList(Id,valid);
+            return ADO.ProductADO.GetList(Id, valid);
         }
     }
 }

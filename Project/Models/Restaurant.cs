@@ -31,19 +31,21 @@ namespace Project.Models
             Phone = row["phone"].ToString();
             Address = row["address"].ToString();
             Email = row["email"].ToString();
-            IsActive = string.IsNullOrEmpty(row["is_Active"].ToString()) ? null: bool.Parse(row["is_Active"].ToString());
+            IsActive = string.IsNullOrEmpty(row["is_Active"].ToString()) ? null : bool.Parse(row["is_Active"].ToString());
             CreatedAt = string.IsNullOrEmpty(row["Created_At"].ToString()) ? null : DateTime.Parse(row["Created_At"].ToString());
             UpdatedAt = string.IsNullOrEmpty(row["Updated_At"].ToString()) ? null : DateTime.Parse(row["Updated_At"].ToString());
             Logo = row["logo"].ToString();
+            Bank = row["bank"].ToString();
+            AccountNumber = row["accountNumber"].ToString();
         }
 
         public virtual User Owner { get; set; }
         public virtual ICollection<Product> Products(bool? value)
         {
             ICollection<Product> products = new List<Product>();
-            foreach(Category category in Categories(true))
+            foreach (Category category in Categories(true))
             {
-                foreach(Product product in category.GetProducts(value))
+                foreach (Product product in category.GetProducts(value))
                 {
                     products.Add(product);
                 }

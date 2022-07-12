@@ -1,7 +1,5 @@
 ﻿using Project.Models;
 using System.Data;
-using System;
-using System.Collections.Generic;
 
 namespace Project.ADO
 {

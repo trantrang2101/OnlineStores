@@ -28,14 +28,14 @@ namespace Project.Models
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public string Avatar { get; set; }
-
+        public string Address { get; set; }
         public User(DataRow row)
         {
             Id = (int)row["Id"];
             Email = row["email"].ToString();
             Password = row["password"].ToString();
             FullName = row["full_Name"].ToString();
-            Birthday = String.IsNullOrEmpty(row["birthday"].ToString())? null:DateTime.Parse(row["birthday"].ToString());
+            Birthday = String.IsNullOrEmpty(row["birthday"].ToString()) ? null : DateTime.Parse(row["birthday"].ToString());
             Phone = row["phone"].ToString();
             Gender = bool.Parse(row["gender"].ToString());
             IsAdmin = bool.Parse(row["Is_Admin"].ToString());
@@ -43,6 +43,7 @@ namespace Project.Models
             CreatedAt = String.IsNullOrEmpty(row["Created_At"].ToString()) ? null : DateTime.Parse(row["Created_At"].ToString());
             UpdatedAt = String.IsNullOrEmpty(row["Updated_At"].ToString()) ? null : DateTime.Parse(row["Updated_At"].ToString());
             Avatar = row["avatar"].ToString();
+            Address = row["Address"].ToString();
         }
 
         public virtual ICollection<Bill> Bills { get; set; }
@@ -86,7 +87,7 @@ namespace Project.Models
         }
         public List<Feature> Features()
         {
-            return Permission.Features.ToList();            
+            return Permission.Features.ToList();
         }
     }
 }

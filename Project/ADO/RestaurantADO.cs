@@ -1,7 +1,7 @@
 ﻿using Project.Models;
-using System.Data;
 using System;
 using System.Collections.Generic;
+using System.Data;
 
 namespace Project.ADO
 {
@@ -26,9 +26,9 @@ namespace Project.ADO
         private RestaurantADO()
         {
         }
-        public static Restaurant GetRestaurant(int id,bool? status)
+        public static Restaurant GetRestaurant(int id, bool? status)
         {
-            string sql = $"select * from [Restaurant] where Id={id} " + (status == null ? "" : " and is_active=" + (status==true?1:0));
+            string sql = $"select * from [Restaurant] where Id={id} " + (status == null ? "" : " and is_active=" + (status == true ? 1 : 0));
             DataTable data = DAO.GetDataBySql(sql);
             try
             {
@@ -41,12 +41,12 @@ namespace Project.ADO
         }
         public static List<Restaurant> GetList(bool? status)
         {
-            string sql = $"select * from [Restaurant] " +(status == null ? "" : " where is_active=" + (status==true?1:0));
+            string sql = $"select * from [Restaurant] " + (status == null ? "" : " where is_active=" + (status == true ? 1 : 0));
             DataTable data = DAO.GetDataBySql(sql);
             try
             {
                 List<Restaurant> list = new List<Restaurant>();
-                foreach(DataRow row in data.Rows)
+                foreach (DataRow row in data.Rows)
                 {
                     list.Add(new Restaurant(row));
                 }

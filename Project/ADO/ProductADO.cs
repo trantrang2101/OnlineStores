@@ -1,8 +1,7 @@
 ﻿using Project.Models;
-using System.Data;
-using Project.ADO;
 using System;
 using System.Collections.Generic;
+using System.Data;
 
 namespace Project.ADO
 {
@@ -27,9 +26,9 @@ namespace Project.ADO
         private ProductADO()
         {
         }
-        public static Product GetProduct(int id ,bool? status)
+        public static Product GetProduct(int id, bool? status)
         {
-            string and = status == null ? "" : " and status = "+(status==true?1:0);
+            string and = status == null ? "" : " and status = " + (status == true ? 1 : 0);
             string sql = $"select * from [Product] where id={id} {and};";
             DataTable data = DAO.GetDataBySql(sql);
             try
@@ -44,13 +43,13 @@ namespace Project.ADO
         }
         public static List<Product> GetList(int id, bool? status)
         {
-            string and = status == null ? "" : " and status = "+(status==true?1:0);
+            string and = status == null ? "" : " and status = " + (status == true ? 1 : 0);
             string sql = $"select * from [Product] where categoryId={id} {and};";
             DataTable data = DAO.GetDataBySql(sql);
             try
             {
                 List<Product> result = new List<Product>();
-                foreach(DataRow row in data.Rows)
+                foreach (DataRow row in data.Rows)
                 {
                     result.Add(new Product(row));
                 }

@@ -1,8 +1,7 @@
 ﻿using Project.Models;
-using System.Data;
-using Project.ADO;
 using System;
 using System.Collections.Generic;
+using System.Data;
 
 namespace Project.ADO
 {
@@ -27,9 +26,9 @@ namespace Project.ADO
         private PermissionADO()
         {
         }
-        public static Permission GetPermission(string title,bool? status)
+        public static Permission GetPermission(string title, bool? status)
         {
-            string sql = $"select * from [Permission] where Name='{title}'" + (status == null ? "" : " and status=" + (status==true?1:0));
+            string sql = $"select * from [Permission] where Name='{title}'" + (status == null ? "" : " and status=" + (status == true ? 1 : 0));
             DataTable data = DAO.GetDataBySql(sql);
             try
             {
@@ -43,7 +42,7 @@ namespace Project.ADO
 
         public static List<Permission> GetList(bool? status)
         {
-            string sql = $"select * from [Permission] " + (status == null ? "" : " where status=" + (status==true?1:0));
+            string sql = $"select * from [Permission] " + (status == null ? "" : " where status=" + (status == true ? 1 : 0));
             DataTable data = DAO.GetDataBySql(sql);
             try
             {

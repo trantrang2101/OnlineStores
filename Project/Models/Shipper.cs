@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Data;
 
 #nullable disable
 
@@ -19,7 +17,8 @@ namespace Project.Models
             Status = bool.Parse(row["status"].ToString());
         }
 
-        public virtual User User { 
+        public virtual User User
+        {
             get
             {
                 return ADO.UserADO.GetUser(UserId, true);

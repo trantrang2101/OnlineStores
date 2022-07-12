@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Project.Models;
-using System.Dynamic;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Project.Models;
+using System.Collections.Generic;
+using System.Dynamic;
+using System.Linq;
 
 namespace Project.Controllers
 {
@@ -14,15 +14,15 @@ namespace Project.Controllers
         public RestaurantController()
         {
         }
-        public IActionResult Detail(int id,int cateId, int page)
+        public IActionResult Detail(int id, int cateId, int page)
         {
             dynamic model = new ExpandoObject();
             bool? status = true;
-            Restaurant restaurant = ADO.RestaurantADO.GetRestaurant(id,true);
+            Restaurant restaurant = ADO.RestaurantADO.GetRestaurant(id, true);
             ICollection<Product> products = restaurant.Products(true);
             if (cateId != 0)
             {
-                Category cate = ADO.CategoryADO.GetCategory(cateId,true);
+                Category cate = ADO.CategoryADO.GetCategory(cateId, true);
                 products = cate.GetProducts(true);
                 model.Category = cate;
             }
@@ -37,7 +37,7 @@ namespace Project.Controllers
             }
             model.Page = page;
             model.Restaurant = restaurant;
-            model.Categories = ADO.CategoryADO.GetList(id,status);
+            model.Categories = ADO.CategoryADO.GetList(id, status);
             model.Count = products.Count();
             model.List = products.Skip(page * 16).Take(16).ToList();
             return View(model);
@@ -61,7 +61,7 @@ namespace Project.Controllers
             model.Page = page;
             model.Count = restaurants.Count();
             model.List = restaurants.Skip(page * 16).Take(16);
-            return View(view,model);
+            return View(view, model);
         }
     }
 }

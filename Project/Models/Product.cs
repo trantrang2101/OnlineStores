@@ -24,18 +24,18 @@ namespace Project.Models
             Description = row["Description"].ToString();
             Price = double.Parse(row["price"].ToString());
             CategoryId = (int)row["categoryId"];
-            CreatedAt = String.IsNullOrEmpty(row["Created_At"].ToString()) ? null: DateTime.Parse(row["Created_At"].ToString());
+            CreatedAt = String.IsNullOrEmpty(row["Created_At"].ToString()) ? null : DateTime.Parse(row["Created_At"].ToString());
             UpdatedAt = String.IsNullOrEmpty(row["Updated_At"].ToString()) ? null : DateTime.Parse(row["Updated_At"].ToString());
             Status = bool.Parse(row["status"].ToString());
         }
 
         public virtual int RestaurantId { get { return Category.RestaurantId; } }
         public virtual Restaurant Restaurant { get { return Category.Restaurant; } }
-        public virtual Category Category 
-        { 
-            get 
+        public virtual Category Category
+        {
+            get
             {
-                return ADO.CategoryADO.GetCategory(CategoryId, null); 
+                return ADO.CategoryADO.GetCategory(CategoryId, null);
             }
         }
         public virtual List<ProductImage> ProductImages

@@ -1,7 +1,7 @@
 ﻿using Project.Models;
-using System.Data;
 using System;
 using System.Collections.Generic;
+using System.Data;
 
 namespace Project.ADO
 {
@@ -28,7 +28,7 @@ namespace Project.ADO
         }
         public static List<Shipper> GetList(bool? status)
         {
-            string sql = $"select * from [Shipper] " + (status == null ? "" : " where status=" + (status==true?1:0));
+            string sql = $"select * from [Shipper] " + (status == null ? "" : " where status=" + (status == true ? 1 : 0));
             DataTable data = DAO.GetDataBySql(sql);
             try
             {
@@ -46,7 +46,7 @@ namespace Project.ADO
         }
         public static Shipper GetShipper(int id, bool? status)
         {
-            string sql = $"select * from [Shipper] where userId={id} " + (status == null ? "" : " and status=" + (status==true?1:0));
+            string sql = $"select * from [Shipper] where userId={id} " + (status == null ? "" : " and status=" + (status == true ? 1 : 0));
             DataTable data = DAO.GetDataBySql(sql);
             try
             {

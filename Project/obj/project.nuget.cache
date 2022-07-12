@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "Buao9dovS89D6Hm7+/9XVYcazMOKFXnpLb1gKq8UOyj/cdI6xMjQfkrshxB5P6a/eN6VtDVcsaQKla565cO7gQ==",
+  "dgSpecHash": "LxAHD7CUoO0xROmHAKvRBCpsNq53J8ml1rvLVMiJd80NkBRi4mCJceC34doErVI2b6lz0qQ0JAwfha+fj1zMDQ==",
   "success": true,
   "projectFilePath": "D:\\FPT_SE\\PRN211\\OnlineStores\\Project\\Project.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\win\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\win\\.nuget\\packages\\buildbundlerminifier\\3.2.449\\buildbundlerminifier.3.2.449.nupkg.sha512",
     "C:\\Users\\win\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\win\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",

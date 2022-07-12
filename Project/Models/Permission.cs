@@ -1,5 +1,4 @@
-﻿using Project.ADO;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -33,7 +32,7 @@ namespace Project.Models
             get
             {
                 ICollection<Feature> features = new List<Feature>();
-                foreach(Action action in Actions)
+                foreach (Action action in Actions)
                 {
                     Feature feature = ADO.FeatureADO.GetFeature(action);
                     try
@@ -46,7 +45,7 @@ namespace Project.Models
                     }
 
                 }
-                return features.Distinct().ToList() ;
+                return features.Distinct().ToList();
             }
         }
     }

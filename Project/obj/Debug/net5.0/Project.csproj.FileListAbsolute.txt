@@ -174,3 +174,6 @@ D:\FPT_SE\PRN211\OnlineStores\Project\obj\Debug\net5.0\refint\Project.dll
 D:\FPT_SE\PRN211\OnlineStores\Project\obj\Debug\net5.0\Project.pdb
 D:\FPT_SE\PRN211\OnlineStores\Project\obj\Debug\net5.0\Project.genruntimeconfig.cache
 D:\FPT_SE\PRN211\OnlineStores\Project\obj\Debug\net5.0\ref\Project.dll
+D:\FPT_SE\PRN211\OnlineStores\Project\obj\Debug\net5.0\Razor\Views\Bill\Invoice.cshtml.g.cs
+D:\FPT_SE\PRN211\OnlineStores\Project\bin\Debug\net5.0\BCrypt.Net-Next.dll
+D:\FPT_SE\PRN211\OnlineStores\Project\obj\Debug\net5.0\Razor\Views\Bill\List.cshtml.g.cs

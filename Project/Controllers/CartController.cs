@@ -31,7 +31,7 @@ namespace Project.Controllers
             }
             if (Cart != null && Cart.ContainsKey(id))
             {
-                
+
                 if (Request.Form["quantity"].Equals("0"))
                 {
                     Cart.Remove(id);
@@ -82,7 +82,7 @@ namespace Project.Controllers
                     Cart = new Dictionary<int, int>();
                 }
             }
-            Product p = ADO.ProductADO.GetProduct(id,true);
+            Product p = ADO.ProductADO.GetProduct(id, true);
             if (p != null)
             {
                 if (Cart != null && !Cart.ContainsKey(id))

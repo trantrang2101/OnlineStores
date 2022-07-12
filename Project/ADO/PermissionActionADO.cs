@@ -1,9 +1,4 @@
-﻿using Project.Models;
-using System.Data;
-using Project.ADO;
-using System;
-
-namespace Project.ADO
+﻿namespace Project.ADO
 {
     public class PermissionActionADO
     {

@@ -1,8 +1,6 @@
-﻿using Project.Models;
-using System.Data;
-using Project.ADO;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Data;
 
 namespace Project.ADO
 {
@@ -28,9 +26,9 @@ namespace Project.ADO
         {
         }
 
-        public static List<Models.Action> GetList(int? permissionId,bool? status)
+        public static List<Models.Action> GetList(int? permissionId, bool? status)
         {
-            string sql = $"select Action.Id,Action.Title,Action.FeatureId,Action.Status from [Action],[permission_action] where Action.Id=[permission_action].actionId" +(permissionId==null?"": " and permissionId="+ permissionId) + (status == null ? "" : " and action.status=" + (status==true?1:0));
+            string sql = $"select Action.Id,Action.Title,Action.FeatureId,Action.Status from [Action],[permission_action] where Action.Id=[permission_action].actionId" + (permissionId == null ? "" : " and permissionId=" + permissionId) + (status == null ? "" : " and action.status=" + (status == true ? 1 : 0));
             DataTable data = DAO.GetDataBySql(sql);
             try
             {
