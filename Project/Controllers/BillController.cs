@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Project.Models;
+using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
@@ -22,7 +23,7 @@ namespace Project.Controllers
             dynamic model = new ExpandoObject();
             List<Bill> list = new List<Bill>();
             string userJson = HttpContext.Session.GetString("user");
-            if(userJson != null)
+            if(!string.IsNullOrEmpty(userJson))
             {
                 User user = JsonConvert.DeserializeObject<User>(userJson);
                 list = ADO.BillADO.GetList(null, user.Id);
@@ -42,78 +43,67 @@ namespace Project.Controllers
         {
             Dictionary<int, int> Cart = new Dictionary<int, int>();
             string cartStr = HttpContext.Session.GetString("cart");
-            if (cartStr != null)
+            if (!string.IsNullOrEmpty(cartStr))
             {
                 Cart = JsonConvert.DeserializeObject<Dictionary<int, int>>(cartStr);
             }
             else
             {
-                return RedirectToAction("List");
+                return RedirectToAction("List","Cart");
             }
             Dictionary<Product, int> list = new Dictionary<Product, int>();
             foreach (int key in Cart.Keys)
             {
                 list.Add(ADO.ProductADO.GetProduct(key, true), Cart[key]);
             }
-            var listGroup = list.GroupBy(x => x.Key.RestaurantId).ToDictionary(x => x.Key, y => y.ToDictionary(x => x.Key, y => y.Value));
-            bool isTakeAway = false;
-            try
-            {
-                isTakeAway = !string.IsNullOrEmpty(Request.Form["isTakeAway"]);
-            }
-            catch 
-            {
-
-            }
-            bool isTransfer = false;
-            try
-            {
-                isTransfer = !string.IsNullOrEmpty(Request.Form["isTransfer"]);
-            }
-            catch 
-            {
-
-            }
-            List<Bill> bills = new List<Bill>();
             List<BillStatus> statuses = ADO.BillStatusADO.GetList(true);
+            var listGroup = list.GroupBy(x => x.Key.RestaurantId).ToDictionary(x => x.Key, y => y.ToDictionary(x => x.Key, y => y.Value));
+            //string temp = "";
+            //foreach (string key in Request.Form.Keys)
+            //{
+            //    temp+=key+"="+Request.Form[key]+"&";
+            //}
+            bool isTakeAway = !string.IsNullOrEmpty(Request.Form["isTakeAway"])&& Request.Form["isTakeAway"].Equals("true");
+            bool isTransfer = !string.IsNullOrEmpty(Request.Form["isTransfer"]);
+            List<Bill> bills = new List<Bill>();
             foreach (int rest in listGroup.Keys)
             {
                 int status = statuses[2].Id;
                 if (isTransfer)
                 {
-                    try
+                    if (!string.IsNullOrEmpty(Request.Form["res_" + rest]))
                     {
-                        if (string.IsNullOrEmpty(Request.Form["res_" + rest]))
-                        {
-                            status = statuses[0].Id;
-                        }
-                    }
-                    catch
-                    {
+                        status = statuses[0].Id;
                     }
                 }
                 Bill b = ADO.BillADO.Add(new Bill(isTakeAway, isTransfer, status));
                 bills.Add(b);
-                if (!isTakeAway)
-                {
-                    string fullName = Request.Form["fullName"].ToString();
-                    string phone = Request.Form["phone"].ToString();
-                    string address = Request.Form["address"].ToString();
-                    int? id = string.IsNullOrEmpty(Request.Form["id"]) ? null : int.Parse(Request.Form["id"]);
-                    ADO.BillTakeAwayADO.Add(new BillTakeAway(b.Id, id, fullName, address, phone));
-                }
                 foreach (Product p in listGroup[rest].Keys)
                 {
                     ADO.BillDetailADO.Add(new BillDetail(b.Id, p.Id, listGroup[rest][p], p.Price));
+                }
+                if (isTakeAway==false)
+                {
+                    string fullName = Request.Form["fullName"];
+                    string phone = Request.Form["phone"];
+                    string address = Request.Form["address"];
+                    int? id = string.IsNullOrEmpty(Request.Form["id"]) ? null : int.Parse(Request.Form["id"]);
+                    ADO.BillTakeAwayADO.Add(new BillTakeAway(b.Id, id, fullName, address, phone));
                 }
             }
             string userJson = HttpContext.Session.GetString("user");
             if (userJson == null)
             {
-                HttpContext.Session.SetString("RecentBill", JsonConvert.SerializeObject(bills));
-                HttpContext.Session.SetString("Cart", null);
+                string get = "";
+                if (HttpContext.Session.GetString("RecentBill")!=null)
+                {
+                    bills.AddRange(JsonConvert.DeserializeObject<List<Bill>>(HttpContext.Session.GetString("RecentBill")));
+                }
+                get = JsonConvert.SerializeObject(bills);
+                HttpContext.Session.SetString("RecentBill", get);
             }
-            return View();
+            HttpContext.Session.Remove("cart");
+            return RedirectToAction("List");
         }
     }
 }

@@ -10,7 +10,6 @@ namespace Project.Models
     {
         public Bill()
         {
-            Feedbacks = new HashSet<Feedback>();
         }
         public Bill(bool? isTakeAway, bool? isTransfer, int status)
         {
@@ -22,9 +21,16 @@ namespace Project.Models
         public Bill(DataRow row)
         {
             Id = int.Parse(row["Id"].ToString());
-            ServeredBy = row["ServeredBy"] == null ? null : int.Parse(row["ServeredBy"].ToString());
-            IsTakeAway = bool.Parse(row["IsTakeAway"].ToString());
-            IsTransfer = bool.Parse(row["IsTransfer"].ToString());
+            try
+            {
+                ServeredBy = int.Parse(row["servered_by"].ToString());
+            }
+            catch
+            {
+                ServeredBy = null;
+            }
+            IsTakeAway = bool.Parse(row["is_takeAway"].ToString());
+            IsTransfer = bool.Parse(row["is_transfer"].ToString());
             Status = int.Parse(row["Status"].ToString());
             CreatedAt = DateTime.Parse(row["CreatedAt"].ToString());
         }
@@ -35,41 +41,35 @@ namespace Project.Models
         public int Status { get; set; }
         public DateTime CreatedAt { get; set; }
         public virtual User ServeredByNavigation { get; set; }
-        public virtual BillStatus BillStatus
+        public virtual BillStatus BillStatus()
         {
-            get
+            return ADO.BillStatusADO.GetBillStatus(Status, true);
+        }
+        public virtual BillTakeAway BillTakeAway()
+        {
+            if (IsTakeAway == true)
             {
-                return ADO.BillStatusADO.GetBillStatus(Status, true);
+                return null;
+            }
+            else
+            {
+                return ADO.BillTakeAwayADO.GetBill(Id);
             }
         }
-        public virtual BillTakeAway BillTakeAway
+        public Restaurant Restaurant()
         {
-            get
+            try
             {
-                if (IsTakeAway == true)
-                {
-                    return null;
-                }
-                else
-                {
-                    return ADO.BillTakeAwayADO.GetBill(Id);
-                }
+                return BillDetails()[0].Product.Restaurant;
+            }
+            catch
+            {
+                return null;
             }
         }
-        public Restaurant Restaurant
+        public virtual List<BillDetail> BillDetails()
         {
-            get
-            {
-                return BillDetails[0].Product.Restaurant;
-            }
+            return ADO.BillDetailADO.GetList(Id);
         }
-        public virtual List<BillDetail> BillDetails
-        {
-            get
-            {
-                return ADO.BillDetailADO.GetList(Id);
-            }
-        }
-        public virtual ICollection<Feedback> Feedbacks { get; set; }
     }
 }

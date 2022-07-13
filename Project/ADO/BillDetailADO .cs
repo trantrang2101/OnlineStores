@@ -30,13 +30,13 @@ namespace Project.ADO
         {
             if (bill != null)
             {
-                String sql = $"INSERT INTO [dbo].[bill_detail] ([billId],[productId],[quantity]) VALUES({bill.BillId},{bill.ProductId},{bill.Quantity})";
+                String sql = $"INSERT INTO [dbo].[bill_detail] ([billId],[productId],[quantity],[price]) VALUES({bill.BillId},{bill.ProductId},{bill.Quantity},{bill.Price})";
                 DAO.ExecuteNonQuery(sql);
             }
         }
         public static List<BillDetail> GetList(int? id)
         {
-            string sql = $"select * from [Bill]" + (id == null ? "" : " where billId=" + id);
+            string sql = $"select * from [bill_detail]" + (id == null ? "" : " where billId=" + id);
             DataTable data = DAO.GetDataBySql(sql);
             try
             {

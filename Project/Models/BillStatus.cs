@@ -9,7 +9,6 @@ namespace Project.Models
     {
         public BillStatus()
         {
-            Bills = new HashSet<Bill>();
         }
 
         public BillStatus(DataRow row)
@@ -23,6 +22,5 @@ namespace Project.Models
         public string Name { get; set; }
         public bool Status { get; set; }
 
-        public virtual ICollection<Bill> Bills { get; set; }
     }
 }

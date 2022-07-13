@@ -39,14 +39,14 @@
           </div>
   
   
-          @if (bill.BillTakeAway != null)
+          @if (bill.BillTakeAway() != null)
           {
           <div class="row">
             <div class="col-xl-8">
               <ul class="list-unstyled">
-                <li class="text-muted">To: <span style="color:#5d9fc5 ;">@bill.BillTakeAway.FullName</span></li>
-                <li class="text-muted">@bill.BillTakeAway.Address</li>
-                <li class="text-muted"><i class="fas fa-phone"></i> @bill.BillTakeAway.Phone</li>
+                <li class="text-muted">To: <span style="color:#5d9fc5 ;">@bill.BillTakeAway().FullName</span></li>
+                <li class="text-muted">@bill.BillTakeAway().Address</li>
+                <li class="text-muted"><i class="fas fa-phone"></i> @bill.BillTakeAway().Phone</li>
               </ul>
             </div>
             <div class="col-xl-4">
@@ -54,7 +54,7 @@
               <ul class="list-unstyled">
                 <li class="text-muted"><i class="fas fa-circle" style="color:#84B0CA ;"></i> <span class="fw-bold">ID:</span>#@bill.Id</li>
                 <li class="text-muted"><i class="fas fa-circle" style="color:#84B0CA ;"></i> <span class="fw-bold">Creation Date: </span>@bill.CreatedAt.ToString("MMM dd, yyyy")</li>
-                <li class="text-muted"><i class="fas fa-circle" style="color:#84B0CA ;"></i> <span class="me-1 fw-bold">Status:</span><span class="badge bg-warning text-black fw-bold"> @bill.BillStatus.Name</span></li>
+                <li class="text-muted"><i class="fas fa-circle" style="color:#84B0CA ;"></i> <span class="me-1 fw-bold">Status:</span><span class="badge bg-warning text-black fw-bold"> @bill.BillStatus().Name</span></li>
               </ul>
             </div>
           </div>
@@ -72,7 +72,7 @@
                 </tr>
               </thead>
               <tbody>
-                @foreach(BillDetail billDetail in bill.BillDetails)
+                @foreach(BillDetail billDetail in bill.BillDetails())
                 {
                     price += billDetail.Quantity * billDetail.Price;
                     <tr>

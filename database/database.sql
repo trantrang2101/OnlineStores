@@ -20,7 +20,7 @@ create table [dbo].[action](
 )
 CREATE TABLE [dbo].[permission](
 	[id] [int] IDENTITY(1,1) NOT NULL PRIMARY KEY,
-	[name] [varchar](200) NULL,
+	[name] [nvarchar](200) NULL,
 	status bit default 1
 )
 CREATE TABLE [dbo].[permission_action](
@@ -44,7 +44,7 @@ CREATE TABLE [dbo].[user](
 	[address] [text] default null,
 	[created_at] [datetime] default getDate(),
 	[updated_at] [datetime] NULL,
-	[avatar] [varchar](255) NULL
+	[avatar] [nvarchar](255) NULL
 )
 CREATE TABLE [dbo].[restaurant](
 	[id] [int] IDENTITY(1,1) NOT NULL PRIMARY KEY,
@@ -57,9 +57,9 @@ CREATE TABLE [dbo].[restaurant](
 	[is_active] [bit] default 1,
 	[created_at] [datetime] default getDate(),
 	[updated_at] [datetime] NULL,
-	[logo] [varchar](255) NULL,
-	[bank] [varchar](255) NULL,
-	[accountNumber] [varchar](255) NULL,
+	[logo] [nvarchar](255) NULL,
+	[bank] [nvarchar](255) NULL,
+	[accountNumber] [nvarchar](255) NULL,
 	FOREIGN KEY ([ownerId]) REFERENCES [user]([Id])
 )
 CREATE TABLE [dbo].[restaurant_user](
@@ -104,7 +104,7 @@ CREATE TABLE [dbo].[shipper](
 )
 CREATE TABLE [dbo].[bill_status](
 	[id] [int] IDENTITY(1,1) NOT NULL PRIMARY KEY,
-	[name] [varchar](200) NULL,
+	[name] [nvarchar](200) NULL,
 	status bit default 1
 )
 CREATE TABLE [dbo].[bill](

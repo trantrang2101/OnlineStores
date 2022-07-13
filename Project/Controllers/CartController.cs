@@ -20,7 +20,7 @@ namespace Project.Controllers
             if (Cart == null)
             {
                 string cartStr = HttpContext.Session.GetString("cart");
-                if (cartStr != null)
+                if (!string.IsNullOrEmpty(cartStr))
                 {
                     Cart = JsonConvert.DeserializeObject<Dictionary<int, int>>(cartStr);
                 }
@@ -51,7 +51,7 @@ namespace Project.Controllers
             if (Cart == null)
             {
                 string cartStr = HttpContext.Session.GetString("cart");
-                if (cartStr != null)
+                if (!string.IsNullOrEmpty(cartStr))
                 {
                     Cart = JsonConvert.DeserializeObject<Dictionary<int, int>>(cartStr);
                 }
@@ -73,7 +73,7 @@ namespace Project.Controllers
             if (Cart == null)
             {
                 string cartStr = HttpContext.Session.GetString("cart");
-                if (cartStr != null)
+                if (!string.IsNullOrEmpty(cartStr))
                 {
                     Cart = JsonConvert.DeserializeObject<Dictionary<int, int>>(cartStr);
                 }
@@ -103,7 +103,7 @@ namespace Project.Controllers
             if (Cart == null)
             {
                 string cartStr = HttpContext.Session.GetString("cart");
-                if (cartStr != null)
+                if (!string.IsNullOrEmpty(cartStr))
                 {
                     Cart = JsonConvert.DeserializeObject<Dictionary<int, int>>(cartStr);
                 }
@@ -128,7 +128,7 @@ namespace Project.Controllers
             if (Cart == null)
             {
                 string cartStr = HttpContext.Session.GetString("cart");
-                if (cartStr != null)
+                if (!string.IsNullOrEmpty(cartStr))
                 {
                     Cart = JsonConvert.DeserializeObject<Dictionary<int, int>>(cartStr);
                 }

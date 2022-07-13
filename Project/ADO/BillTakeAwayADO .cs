@@ -54,7 +54,7 @@ namespace Project.ADO
         }
         public static BillTakeAway GetBill(int id)
         {
-            string sql = $"select * from [Bill] where billId={id} ";
+            string sql = $"select * from [bill_takeAway] where billId={id} ";
             DataTable data = DAO.GetDataBySql(sql);
             try
             {

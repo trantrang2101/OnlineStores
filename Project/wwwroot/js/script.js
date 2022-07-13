@@ -19,8 +19,8 @@ function showForm() {
     if (document.getElementById('takeAway').checked) {
         document.getElementById('shipForm').style.display = 'none';
     } else {
+        console.log(document.getElementById('takeAway'));
         document.getElementById('shipForm').style.display = 'block';
-
     }
 }
 function changeStatus(id, trueValue, falseValue) {
