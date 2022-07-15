@@ -26,6 +26,20 @@ namespace Project.ADO
         private BillStatusADO()
         {
         }
+        public static BillStatus GetBillStatus(string title)
+        {
+            string sql = $"select * from [Bill_Status] where Name like '%{title}%'";
+            DataTable data = DAO.GetDataBySql(sql);
+            try
+            {
+                return new BillStatus(data.Rows[0]);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
         public static BillStatus GetBillStatus(int id, bool? status)
         {
             string sql = $"select * from [Bill_Status] where Id={id} " + (status == null ? "" : " and status=" + (status == true ? 1 : 0));

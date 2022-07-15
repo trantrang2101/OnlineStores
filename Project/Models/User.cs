@@ -68,7 +68,7 @@ namespace Project.Models
                         }
                         else
                         {
-                            RestaurantUser get = ADO.RestaurantUserADO.GetUser(Id, res.Id, true);
+                            RestaurantUser get = ADO.RestaurantUserADO.GetUser(Id, res.Id);
                             if (get != null)
                             {
                                 return ADO.PermissionADO.GetPermission("waiter", true);

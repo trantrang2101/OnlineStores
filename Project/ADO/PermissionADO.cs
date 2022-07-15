@@ -26,6 +26,20 @@ namespace Project.ADO
         private PermissionADO()
         {
         }
+        public static Permission GetPermission(int id)
+        {
+            string sql = $"select * from [Permission] where id={id}";
+            DataTable data = DAO.GetDataBySql(sql);
+            try
+            {
+                return new Permission(data.Rows[0]);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
         public static Permission GetPermission(string title, bool? status)
         {
             string sql = $"select * from [Permission] where Name='{title}'" + (status == null ? "" : " and status=" + (status == true ? 1 : 0));

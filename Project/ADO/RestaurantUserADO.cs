@@ -26,9 +26,9 @@ namespace Project.ADO
         private RestaurantUserADO()
         {
         }
-        public static List<RestaurantUser> GetList(int id, bool? status)
+        public static List<RestaurantUser> GetList(int id)
         {
-            string sql = $"select * from [restaurant_user] where restaurantId={id} " + (status == null ? "" : " and status=" + (status == true ? 1 : 0));
+            string sql = $"select * from [restaurant_user] where restaurantId={id} ";
             DataTable data = DAO.GetDataBySql(sql);
             try
             {
@@ -44,9 +44,9 @@ namespace Project.ADO
                 return null;
             }
         }
-        public static RestaurantUser GetUser(int id, int restaurant, bool? status)
+        public static RestaurantUser GetUser(int id, int restaurant)
         {
-            string sql = $"select * from [restaurant_user] where restaurantId={restaurant} and userId={id} " + (status == null ? "" : " and status=" + (status == true ? 1 : 0));
+            string sql = $"select * from [restaurant_user] where restaurantId={restaurant} and userId={id} ";
             DataTable data = DAO.GetDataBySql(sql);
             try
             {

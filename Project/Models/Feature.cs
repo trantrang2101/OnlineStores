@@ -9,7 +9,6 @@ namespace Project.Models
     {
         public Feature()
         {
-            Actions = new HashSet<Action>();
         }
 
         public int Id { get; set; }
@@ -25,6 +24,5 @@ namespace Project.Models
             Status = bool.Parse(row["status"].ToString());
         }
 
-        public virtual ICollection<Action> Actions { get; set; }
     }
 }

@@ -20,32 +20,11 @@ namespace Project.Models
             Status = bool.Parse(row["status"].ToString());
         }
 
-        public virtual ICollection<Action> Actions
-        {
-            get
-            {
-                return ADO.ActionADO.GetList(Id, true);
-            }
-        }
         public virtual ICollection<Feature> Features
         {
             get
             {
-                ICollection<Feature> features = new List<Feature>();
-                foreach (Action action in Actions)
-                {
-                    Feature feature = ADO.FeatureADO.GetFeature(action);
-                    try
-                    {
-                        feature = features.First(x => x.Id == feature.Id);
-                    }
-                    catch (Exception)
-                    {
-                        features.Add(feature);
-                    }
-
-                }
-                return features.Distinct().ToList();
+                return ADO.FeatureADO.GetList(Id);
             }
         }
     }

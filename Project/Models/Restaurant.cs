@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 
 #nullable disable
 
@@ -52,22 +53,22 @@ namespace Project.Models
             }
             return products;
         }
-        //public virtual ICollection<User> Users
-        //{
-        //    get
-        //    {
-        //        ICollection<User> users = new List<User>();
-        //        RestaurantContext context = new RestaurantContext();
-        //        foreach(RestaurantUser ru in context.RestaurantUsers)
-        //        {
-        //            if (ru.RestaurantId == Id)
-        //            {
-        //                users.Add(ru.User);
-        //            }
-        //        }
-        //        return users;
-        //    }
-        //}
+        public virtual ICollection<User> Users()
+        {
+            return ADO.RestaurantUserADO.GetList(Id).Select(x=>x.User).ToList();
+        }
+        public virtual Permission Permission(int UserId)
+        {
+            if (OwnerId == UserId)
+            {
+                return ADO.PermissionADO.GetPermission("owner", true);
+            }
+            if (ADO.RestaurantUserADO.GetUser(UserId, Id) != null)
+            {
+                return ADO.PermissionADO.GetPermission("waiter", true);
+            }
+            return null;
+        }
         public virtual ICollection<Category> Categories(bool? value)
         {
             return ADO.CategoryADO.GetList(Id, value);

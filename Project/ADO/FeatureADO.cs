@@ -1,4 +1,5 @@
 ﻿using Project.Models;
+using System.Collections.Generic;
 using System.Data;
 
 namespace Project.ADO
@@ -24,9 +25,27 @@ namespace Project.ADO
         private FeatureADO()
         {
         }
-        public static Feature GetFeature(Models.Action action)
+        public static List<Feature> GetList(int? permissionId)
         {
-            string sql = $"select distinct Feature.Id,Feature.title,Feature.icon,Feature.status from Feature, action where action.Id={action.Id} and action.featureId=feature.Id";
+            string sql = $"select * from [Feature],permission_feature where Feature.Id=[permission_feature].FeatureId "+(permissionId==null?"":" and permissionId="+permissionId);
+            DataTable data = DAO.GetDataBySql(sql);
+            try
+            {
+                List<Feature> list = new List<Feature>();
+                foreach (DataRow row in data.Rows)
+                {
+                    list.Add(new Feature(row));
+                }
+                return list;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+        public static Feature GetFeature(int id)
+        {
+            string sql = $"select * from Feature where Id={id}";
 
             DataTable data = DAO.GetDataBySql(sql);
             if (data != null)

@@ -1,0 +1,26 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "_Layout";
+    ViewBag.Title = "Login";
+}
+<div class="py-10 px-8 sm:py-12 sm:px-10 md:p-[60px] lg:p-10 lg:py-12 lg:px-10 2xl:p-[60px]">
+    <h3 class="mb-10 text-3xl font-semibold md:text-[32px] text-center">Login</h3>
+    <form action="/Login/Authenticate" class="flex flex-col gap-8 flex-wrap justify-between items-start">
+        <div class="flex items-center max-w-full w-[330px] mb-8">
+            <input type="email" name="email" placeholder="Email" class="block py-5 px-4 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+        </div>
+        <div class="flex items-center max-w-full w-[330px] mb-8">
+            <input type="password" name="password" placeholder="Password" class="block py-5 px-4 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+        </div>
+        <div class="mb-6 flex items-center gap-8">
+            <button type="submit" class="text-base my-8 font-medium text-white rounded-lg hover:shadow-lg button-pink">
+               Submit
+            </button>
+            <button type="reset" class="button-outline-pink text-base my-8 font-medium rounded-lg hover:shadow-lg ">
+                Reset
+            </button>
+        </div>
+    </form>
+</div>

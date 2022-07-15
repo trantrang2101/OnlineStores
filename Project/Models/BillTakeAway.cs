@@ -15,11 +15,25 @@ namespace Project.Models
         public BillTakeAway(DataRow row)
         {
             BillId = int.Parse(row["BillId"].ToString());
-            CustomerId = int.Parse(row["customerId"].ToString());
+            try
+            {
+                CustomerId = int.Parse(row["customerId"].ToString());
+            }
+            catch
+            {
+                CustomerId = null;
+            }
             FullName = row["FullName"].ToString();
             Address = row["Address"].ToString();
             Phone = row["Phone"].ToString();
-            ShipperId = int.Parse(row["ShipperId"].ToString());
+            try
+            {
+                ShipperId = int.Parse(row["ShipperId"].ToString());
+            }
+            catch
+            {
+                ShipperId = null;
+            }
         }
         public BillTakeAway(int bill, int? customerId, string fullName, string address, string phone)
         {

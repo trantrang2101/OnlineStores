@@ -1,0 +1,172 @@
+﻿@using Project.Models
+@using Project.ADO
+@model dynamic
+@using Microsoft.AspNetCore.Http;
+@using Newtonsoft.Json;
+@{
+    Layout = "_LayoutLogin";
+    ViewBag.Title = "Danh sách hóa đơn";
+    int statusShip = BillStatusADO.GetBillStatus("shipping").Id;
+}
+<div class="accordion" id="accordionExample">
+    @foreach (Bill bill in Model.List)
+    {
+        double price = 0;
+        <div class="accordion-item">
+            <div class="accordion-header" id="heading_@bill.Id">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_@bill.Id" aria-expanded="true" aria-controls="collapse_@bill.Id">
+                    <div class="d-flex flex-column">
+                        <a href="/Bill/Invoice/@bill.Id"><h5>Invoice #@bill.Id</h5></a>
+                        <span class="text-muted">@bill.Restaurant().Name - @(bill.IsTakeAway==true?"Take Away":"Ship")</span>
+                    </div>
+                </button>
+            </div>
+            <div id="collapse_@bill.Id" class="accordion-collapse collapse show" aria-labelledby="heading_@bill.Id" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        @if (bill.IsTakeAway == false&&bill.BillTakeAway()!=null)
+                        {
+                            @if(bill.Status<statusShip){
+                                <form action="/Bill/Update" class="d-flex flex-column justify-content-between align-items-center">
+                                    <h4 class="mb-3">Billing address</h4>
+            <div class="row g-3">
+            <div class="col-6">
+              <label for="fullName" class="form-label">Full name</label>
+              <input type="text" class="form-control" value="@(bill.BillTakeAway().FullName)" id="fullName" name="fullName" placeholder="" required="">
+              <div class="invalid-feedback">
+                Valid full name is required.
+              </div>
+            </div>
+            <div class="col-6">
+              <label for="phone" class="form-label">Phone</label>
+              <input type="text"  value="@bill.BillTakeAway().Phone)" class="form-control" id="phone" name="phone" required placeholder="0123456789">
+              <div class="invalid-feedback">
+                Please enter a valid phone for shipping updates.
+              </div>
+            </div>
+
+            <div class="col-12">
+              <label for="address" class="form-label">Address</label>
+              <input type="text" class="form-control" value="@(bill.BillTakeAway().Address)" id="address" name="address" placeholder="1234 Main St" required="">
+              <div class="invalid-feedback">
+                Please enter your shipping address.
+              </div>
+            </div>
+          </div>
+                                </form>
+                            }
+                            else{
+                                <div class="d-flex flex-column justify-content-between align-items-center">
+                                    <h4 class="mb-3">Billing address</h4>
+            <div class="row g-3">
+            <div class="col-6">
+              <label for="fullName" class="form-label">Full name</label>
+              <input type="text" class="form-control" value="@(bill.BillTakeAway().FullName)" id="fullName" name="fullName" placeholder="" required="">
+              <div class="invalid-feedback">
+                Valid full name is required.
+              </div>
+            </div>
+            <div class="col-6">
+              <label for="phone" class="form-label">Phone</label>
+              <input type="text"  value="@bill.BillTakeAway().Phone)" class="form-control" id="phone" name="phone" required placeholder="0123456789">
+              <div class="invalid-feedback">
+                Please enter a valid phone for shipping updates.
+              </div>
+            </div>
+
+            <div class="col-12">
+              <label for="address" class="form-label">Address</label>
+              <input type="text" class="form-control" value="@(bill.BillTakeAway().Address)" id="address" name="address" placeholder="1234 Main St" required="">
+              <div class="invalid-feedback">
+                Please enter your shipping address.
+              </div>
+            </div>
+          </div>
+                                </div>
+                            }
+                        }
+                        Status: 
+                <button type="button" class="btn btn-primary mt-3" data-bs-toggle="modal"
+                    data-bs-target="#statusChange_@bill.Id">
+                    @bill.BillStatus().Name
+                </button>
+                    </div>
+                    @foreach (BillDetail billDetail in bill.BillDetails())
+                    {
+                        price += billDetail.Price * billDetail.Quantity;
+                        <hr>
+                        <div class="row">
+                            <div class="col-xl-6">
+                                <p>@billDetail.Product.Name</p>
+                            </div>
+                            <div class="col-xl-2">
+                              <p class="float-end">x @billDetail.Quantity</p>
+                            </div>
+                            <div class="col-xl-2">
+                              <p class="float-end price">@billDetail.Price</p>
+                            </div>
+                            <div class="col-xl-2">
+                              <p class="float-end price">@(billDetail.Price*billDetail.Quantity)</p>
+                            </div>
+                        </div>
+                    }
+                    <hr style="border: 2px solid black;">
+                    <div class="row text-black">
+                        <div class="col-xl-12">
+                            <p class="float-end fw-bold">Total: <span class="price">@price</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+</div>
+    @foreach (Bill bill in Model.List)
+{
+    @if (bill.IsTakeAway == false&&bill.BillTakeAway()!=null)
+                        {
+    
+        <div class="modal" id="statusChange_@bill.Id" tabindex="1050" aria-labelledby="statusChange_@bill.Id">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Sign in</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="/User/Login" method="post">
+                    <div class="modal-body mx-3">
+                        <div class="wrap-form-field">
+                            <div class="form-group group-width-icon">
+                                <i data-feather="mail"></i>
+                                <input class="form-control" placeholder="Email" autofocus="" type="text" data-val="true"
+                                    data-val-required="Username is required" required="" id="Username" name="Username"
+                                    maxlength="40" value="">
+                            </div>
+                            <span class="text-danger field-validation-valid" data-valmsg-for="Username"
+                                data-valmsg-replace="true"></span>
+                        </div>
+                        <div class="wrap-form-field">
+                            <div class="form-group group-width-icon">
+                                <i data-feather="lock"></i>
+                                <input type="password" id="passwordLogin" class="form-control" placeholder="Password"
+                                    autocomplete="off" data-val="true" data-val-required="Password is required"
+                                    required="" maxlength="40" name="Password" value="">
+                                <label for="passwordLogin" onclick="showPassword(this)">
+                                    <i class="fa-solid fa-eye eye-icon"></i>
+                                </label>
+                            </div>
+                            <span class="text-danger field-validation-valid" data-valmsg-for="Password"
+                                data-valmsg-replace="true"></span>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    }
+}

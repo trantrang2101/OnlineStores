@@ -1,0 +1,39 @@
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using Project.Models;
+using System.Collections.Generic;
+using System.Dynamic;
+using System.Linq;
+
+namespace Project.Controllers
+{
+    public class BillRecentController : Controller
+    {
+
+        public IActionResult List()
+        {
+            dynamic model = new ExpandoObject();
+            List<Bill> list = new List<Bill>();
+            string userJson = HttpContext.Session.GetString("user");
+            if (!string.IsNullOrEmpty(userJson))
+            {
+                int statusShip = ADO.BillStatusADO.GetBillStatus("shipping").Id;
+                User user = JsonConvert.DeserializeObject<User>(userJson);
+                if (user.Permission.Name.ToLower().Equals("shipper"))
+                {
+                    list = ADO.BillADO.GetList(null,null).Where(x=>x.Status<statusShip).ToList();
+                }else if(user.Permission.Name.ToLower().Equals("waiter")|| user.Permission.Name.ToLower().Equals("owner"))
+                {
+                    list = ADO.BillADO.GetList(user.Id,statusShip).Where(x => x.Status < statusShip).ToList();
+                }
+                model.List = list;
+                return View("~/Views/Bill/List.cshtml", model);
+            }
+            else
+            {
+                return RedirectToAction("List", "Bill");
+            }
+        }
+    }
+}

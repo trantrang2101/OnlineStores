@@ -46,6 +46,24 @@ namespace Project.ADO
             }
             return null;
         }
+        public static List<Bill> GetList(int? id, int status)
+        {
+            string sql = $"select * from [Bill] where Id in (select billId from bill_detail " + (id == null ? "" : $" where productId = (select productId from product, category,restaurant_user where category.Id=product.categoryId and category.restaurantId=restaurant_user.restaurantId and (category.ownerId={id} or restaurant_user.userId={id}))") + ") " + (status == null?"": "and Status = " + status) +" order by createdAt desc";
+            DataTable data = DAO.GetDataBySql(sql);
+            try
+            {
+                List<Bill> list = new List<Bill>();
+                foreach (DataRow row in data.Rows)
+                {
+                    list.Add(new Bill(row));
+                }
+                return list;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
         public static List<Bill> GetList(int? id,int? userId)
         {
             string sql = $"select * from [Bill] where Id in (select billId from bill_detail " + (id == null ? "" : " where productId = (select productId from product, category where category.Id=product.categoryId and restaurantId=" + id + ")") + ")" + (userId==null?"":" and id in (select billId from bill_takeAway where customer_id = "+userId+")") + " order by createdAt desc";

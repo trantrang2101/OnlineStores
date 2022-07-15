@@ -5,6 +5,7 @@
 @model dynamic
 @{
     string user = Context.Session.GetString("user");
+    string RecentBill = Context.Session.GetString("RecentBill");
 }
 <!doctype html>
 <html lang="en" class="h-100">
@@ -69,6 +70,10 @@
                     data-bs-target="#register">
                     Register
                 </button>
+                if (RecentBill != null)
+                {
+                    <a href="/Bill/List" class="btn btn-outline-primary mt-3">Recent Bill</a>
+                }
                 }else{
                 <div class="dropdown">
                     <input type="text" id="jsonUser" hidden value="@user"/>

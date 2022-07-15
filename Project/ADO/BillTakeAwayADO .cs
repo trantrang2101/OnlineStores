@@ -30,7 +30,7 @@ namespace Project.ADO
         {
             if (bill != null)
             {
-                String sql = $"INSERT INTO [dbo].[bill_takeAway] ([billId],[customerId],[fullName],[address],[phone]) VALUES({bill.BillId},{bill.CustomerId},{bill.FullName},{bill.Address},{bill.Phone})";
+                String sql = $"INSERT INTO [dbo].[bill_takeAway] ([billId],[customerId],[fullName],[address],[phone]) VALUES({bill.BillId},{(bill.CustomerId==null?"null": bill.CustomerId)},N'{bill.FullName}',N'{bill.Address}','{bill.Phone}')";
                 DAO.ExecuteNonQuery(sql);
             }
         }

@@ -85,13 +85,26 @@ namespace Project.Controllers
             Product p = ADO.ProductADO.GetProduct(id, true);
             if (p != null)
             {
-                if (Cart != null && !Cart.ContainsKey(id))
+                bool check = true;
+                string userJson = HttpContext.Session.GetString("user");
+                if (!string.IsNullOrEmpty(userJson))
                 {
-                    Cart.Add(id, 1);
+                    User user = JsonConvert.DeserializeObject<User>(userJson);
+                    if (p.Restaurant.Permission(user.Id) != null)
+                    {
+                        check = true;
+                    }
                 }
-                else
+                if (check) 
                 {
-                    Cart[id] += 1;
+                    if (Cart != null && !Cart.ContainsKey(id))
+                    {
+                        Cart.Add(id, 1);
+                    }
+                    else
+                    {
+                        Cart[id] += 1;
+                    }
                 }
             }
             HttpContext.Session.SetString("cart", JsonConvert.SerializeObject(Cart));

@@ -30,7 +30,7 @@ namespace Project.Controllers
             if (json != null)
             {
                 User user = JsonConvert.DeserializeObject<User>(json);
-                if (user.Permission.Actions.Where(x => x.FeatureId == 6).Count() > 2)
+                if (user.Permission.Features.Where(x => x.Id == 6).Count() > 2)
                 {
                     status = null;
                 }
@@ -50,7 +50,7 @@ namespace Project.Controllers
             if (json != null)
             {
                 User user = JsonConvert.DeserializeObject<User>(json);
-                if (user.Permission.Actions.Where(x => x.FeatureId == 6).Count() > 2)
+                if (user.Permission.Features.Where(x => x.Id == 6).Count() > 2)
                 {
                     status = null;
                     view = "Table";
