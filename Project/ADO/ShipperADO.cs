@@ -57,5 +57,18 @@ namespace Project.ADO
                 return null;
             }
         }
+        public static Shipper GetShipperId(int? id, bool? status)
+        {
+            string sql = $"select * from [Shipper] where Id={id} " + (status == null ? "" : " and status=" + (status == true ? 1 : 0));
+            DataTable data = DAO.GetDataBySql(sql);
+            try
+            {
+                return new Shipper(data.Rows[0]);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
     }
 }

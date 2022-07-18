@@ -45,6 +45,12 @@ namespace Project.Models
         }
         public virtual Bill Bill { get; set; }
         public virtual User Customer { get; set; }
-        public virtual Shipper Shipper { get; set; }
+        public virtual Shipper Shipper 
+        {
+            get
+            {
+                return ShipperId==null?null:ADO.ShipperADO.GetShipperId(ShipperId, null);
+            }
+        }
     }
 }

@@ -18,14 +18,17 @@ namespace Project.Controllers
             string userJson = HttpContext.Session.GetString("user");
             if (!string.IsNullOrEmpty(userJson))
             {
-                int statusShip = ADO.BillStatusADO.GetBillStatus("shipping").Id;
                 User user = JsonConvert.DeserializeObject<User>(userJson);
                 if (user.Permission.Name.ToLower().Equals("shipper"))
                 {
-                    list = ADO.BillADO.GetList(null,null).Where(x=>x.Status<statusShip).ToList();
+                    list = ADO.BillADO.GetListShip(user.Shipper().Id).ToList();
                 }else if(user.Permission.Name.ToLower().Equals("waiter")|| user.Permission.Name.ToLower().Equals("owner"))
                 {
-                    list = ADO.BillADO.GetList(user.Id,statusShip).Where(x => x.Status < statusShip).ToList();
+                    list = ADO.BillADO.GetListRestaurant(user.Id).ToList();
+                }
+                else
+                {
+                    return RedirectToAction("List", "Bill");
                 }
                 model.List = list;
                 return View("~/Views/Bill/List.cshtml", model);

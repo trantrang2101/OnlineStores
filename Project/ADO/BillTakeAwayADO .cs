@@ -26,6 +26,11 @@ namespace Project.ADO
         private BillTakeAwayADO()
         {
         }
+        public static void UpdateShipper(int id, int userId)
+        {
+            String sql = $"Update bill_takeAway set shipperId={userId} where billId = {id}";
+            DAO.ExecuteNonQuery(sql);
+        }
         public static void Add(BillTakeAway bill)
         {
             if (bill != null)

@@ -28,7 +28,7 @@ namespace Project.ADO
         }
         public static List<User> GetList(bool? status)
         {
-            string sql = $"select * from [user] " + (status == null ? "" : " where status=" + (status == true ? 1 : 0));
+            string sql = $"select * from [user] " + (status == null ? "" : " where is_Active=" + (status == true ? 1 : 0));
             DataTable data = DAO.GetDataBySql(sql);
             try
             {
@@ -44,9 +44,9 @@ namespace Project.ADO
                 return null;
             }
         }
-        public static User GetUser(int id, bool? status)
+        public static User GetUser(int? id, bool? status)
         {
-            string sql = $"select * from [user] where Id={id} " + (status == null ? "" : " and status=" + (status == true ? 1 : 0));
+            string sql = $"select * from [user] where Id={id} " + (status == null ? "" : " and is_Active=" + (status == true ? 1 : 0));
             DataTable data = DAO.GetDataBySql(sql);
             try
             {

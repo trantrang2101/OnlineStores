@@ -26,7 +26,7 @@ namespace Project.Controllers
             if(!string.IsNullOrEmpty(userJson))
             {
                 User user = JsonConvert.DeserializeObject<User>(userJson);
-                list = ADO.BillADO.GetList(null, user.Id);
+                list = ADO.BillADO.GetList(user.Id);
             }
             else
             {
@@ -38,6 +38,26 @@ namespace Project.Controllers
             }
             model.List = list;
             return View(model);
+        }
+        public IActionResult ChangeStatus(int id)
+        {
+            Bill bill = ADO.BillADO.GetBill(id);
+            ADO.BillADO.UpdateStatus(id, (bill.Status+1));
+            string userJson = HttpContext.Session.GetString("user");
+            if (!string.IsNullOrEmpty(userJson))
+            {
+                User user = JsonConvert.DeserializeObject<User>(userJson);
+                if (user.Permission.Name.ToLower().Equals("shipper") && bill.IsTakeAway == false && (bill.BillTakeAway().ShipperId == null))
+                {
+                    Shipper ship = ADO.ShipperADO.GetShipper(user.Id, true);
+                    ADO.BillTakeAwayADO.UpdateShipper(bill.Id, ship.Id);
+                }
+                else if (user.Permission.Name.ToLower().Equals("waiter") && ADO.RestaurantUserADO.GetUser(user.Id, bill.Restaurant().Id) != null)
+                {
+                    ADO.BillADO.UpdateServedBy(bill.Id, user.Id);
+                }
+            }
+            return RedirectToAction("List");
         }
         public IActionResult CheckOut()
         {
@@ -58,11 +78,6 @@ namespace Project.Controllers
             }
             List<BillStatus> statuses = ADO.BillStatusADO.GetList(true);
             var listGroup = list.GroupBy(x => x.Key.RestaurantId).ToDictionary(x => x.Key, y => y.ToDictionary(x => x.Key, y => y.Value));
-            //string temp = "";
-            //foreach (string key in Request.Form.Keys)
-            //{
-            //    temp+=key+"="+Request.Form[key]+"&";
-            //}
             bool isTakeAway = !string.IsNullOrEmpty(Request.Form["isTakeAway"])&& Request.Form["isTakeAway"].Equals("true");
             bool isTransfer = !string.IsNullOrEmpty(Request.Form["isTransfer"]);
             List<Bill> bills = new List<Bill>();
@@ -71,9 +86,9 @@ namespace Project.Controllers
                 int status = statuses[2].Id;
                 if (isTransfer)
                 {
-                    if (!string.IsNullOrEmpty(Request.Form["res_" + rest]))
+                    if (string.IsNullOrEmpty(Request.Form["res_" + rest]))
                     {
-                        status = statuses[0].Id;
+                        status = statuses[1].Id;
                     }
                 }
                 Bill b = ADO.BillADO.Add(new Bill(isTakeAway, isTransfer, status));

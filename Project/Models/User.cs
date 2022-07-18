@@ -85,6 +85,11 @@ namespace Project.Models
             }
 
         }
+
+        public Shipper Shipper()
+        {
+            return ADO.ShipperADO.GetShipper(Id, true);
+        }
         public List<Feature> Features()
         {
             return Permission.Features.ToList();

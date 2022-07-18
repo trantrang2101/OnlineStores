@@ -18,17 +18,18 @@ namespace Project.Models
             Status = bool.Parse(row["status"].ToString());
             try
             {
-                RoleId = int.Parse(row["RoleId"].ToString());
+                PermissionId = int.Parse(row["PermissionId"].ToString());
             }
             catch
             {
-                RoleId = null;
+                PermissionId = null;
             }
         }
 
         public int Id { get; set; }
         public string Name { get; set; }
         public bool Status { get; set; }
-        public int? RoleId { get; set; }
+        public int? PermissionId { get; set; }
+
     }
 }

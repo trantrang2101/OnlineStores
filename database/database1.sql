@@ -58,7 +58,7 @@ CREATE TABLE [dbo].[restaurant](
 CREATE TABLE [dbo].[restaurant_user](
 	[restaurantId] int NOT NULL,
 	[userId] int NOT NULL,
-	[permissionId] int NOT NULL,
+	[permissionId] int NOT NULL default 3,
 	FOREIGN KEY ([restaurantId]) REFERENCES [restaurant]([Id]),
 	FOREIGN KEY ([userId]) REFERENCES [user]([Id]),
 	FOREIGN KEY ([permissionId]) REFERENCES [permission]([Id])
@@ -97,6 +97,8 @@ CREATE TABLE [dbo].[shipper](
 CREATE TABLE [dbo].[bill_status](
 	[id] [int] IDENTITY(1,1) NOT NULL PRIMARY KEY,
 	[name] [nvarchar](200) NULL,
+	[permissionId] int NULL,
+	FOREIGN KEY ([permissionId]) REFERENCES [permission]([Id]),
 	status bit default 1
 )
 CREATE TABLE [dbo].[bill](
@@ -173,12 +175,12 @@ INSERT INTO [dbo].[feature]
            (N'Bill Status',N'check-square'),
            (N'Feedback',N'message-square'),
            (N'Feature',N'feather'),
-           (N'Bill Recent',N'bar-chart')
+           (N'BillRecent',N'bar-chart')
 GO
 insert into [dbo].[permission_feature] (permissionId,featureId) values
 (1,2),(1,3),(1,4),(1,5),(1,6),(1,7),(1,8),(1,9),(1,12),(2,3),(2,4),(2,6),
 (2,7),(2,8),(2,9),(2,13),(3,3),(3,4),(3,6),(3,7),(3,8),(3,9),(3,13),(4,4),
-(4,6),(4,7),(4,8),(4,9),(5,9),(5,13)
+(4,6),(4,7),(4,8),(4,9),(5,9),(5,13),(4,13)
 GO
 INSERT INTO [dbo].[user]([email],[password],[full_name],[is_admin])
      VALUES
@@ -232,6 +234,10 @@ update restaurant set logo = 'logo.png';
 INSERT INTO [dbo].[shipper]
            ([userId])
      VALUES (16),(17),(18),(19),(20),(22),(22)
+GO
+
+INSERT INTO [dbo].[restaurant_user] ([restaurantId],[userId])
+VALUES (1,23),(1,25),(2,23),(3,29),(3,24),(4,26),(9,27),(1,28),(3,28)
 GO
 
 INSERT INTO [dbo].[category]
@@ -495,9 +501,9 @@ INSERT INTO [dbo].[product]
 
 GO
 INSERT INTO [dbo].[bill_status]
-           ([name],[status])
+           ([name],[status],[permissionId])
      VALUES
-           (N'Pending',1),(N'Paying',1),(N'Checking',1),(N'Preparing',1),(N'Shipping',1),(N'Done',1)
+           (N'Pending',1,null),(N'Paying',1,null),(N'Checking',1,2),(N'Preparing',1,3),(N'Shipping',1,5),(N'Shiped',1,5),(N'Done',1,null),(N'Cancel',1,null)
 GO
 
 UPDATE [dbo].[restaurant] set bank=N'Ngân hàng Quân đội Nhân Dân Việt Nam - MB Bank', accountNumber='3300123456333' where Id=1

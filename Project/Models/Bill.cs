@@ -45,6 +45,27 @@ namespace Project.Models
         {
             return ADO.BillStatusADO.GetBillStatus(Status, true);
         }
+
+        public User ServeredByUser()
+        {
+            return ServeredBy==null?null:ADO.UserADO.GetUser(ServeredBy, null);
+        }
+
+        public bool Check(User user)
+        {
+            BillStatus status = BillStatus();
+            BillTakeAway takeAway = BillTakeAway();
+            Permission permission = user.Permission;
+            if (status.PermissionId == null && (user == null || takeAway.CustomerId==user.Id))
+            {
+                return true;
+            }
+            if (user != null && status.PermissionId == permission.Id)
+            {
+                return true;
+            }
+            return false;
+        }
         public virtual BillTakeAway BillTakeAway()
         {
             if (IsTakeAway == true)

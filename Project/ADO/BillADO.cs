@@ -46,9 +46,19 @@ namespace Project.ADO
             }
             return null;
         }
-        public static List<Bill> GetList(int? id, int status)
+        public static void UpdateServedBy(int id, int userId)
         {
-            string sql = $"select * from [Bill] where Id in (select billId from bill_detail " + (id == null ? "" : $" where productId = (select productId from product, category,restaurant_user where category.Id=product.categoryId and category.restaurantId=restaurant_user.restaurantId and (category.ownerId={id} or restaurant_user.userId={id}))") + ") " + (status == null?"": "and Status = " + status) +" order by createdAt desc";
+            String sql = $"Update bill set servered_by={userId} where id = {id}";
+            DAO.ExecuteNonQuery(sql);
+        }
+        public static void UpdateStatus(int id,int status)
+        {
+            String sql = $"Update bill set status={status} where id = {id}";
+            DAO.ExecuteNonQuery(sql);
+        }
+        public static List<Bill> GetListShip(int? shipperId)
+        {
+            string sql = $"select * from [Bill] where (is_TakeAway=0 and servered_by is not null and Id in (select billId from bill_takeAway where shipperId={shipperId} or shipperId is null ))" + " order by createdAt desc";
             DataTable data = DAO.GetDataBySql(sql);
             try
             {
@@ -64,9 +74,27 @@ namespace Project.ADO
                 return null;
             }
         }
-        public static List<Bill> GetList(int? id,int? userId)
+        public static List<Bill> GetList(int? userId)
         {
-            string sql = $"select * from [Bill] where Id in (select billId from bill_detail " + (id == null ? "" : " where productId = (select productId from product, category where category.Id=product.categoryId and restaurantId=" + id + ")") + ")" + (userId==null?"":" and id in (select billId from bill_takeAway where customer_id = "+userId+")") + " order by createdAt desc";
+            string sql = $"select * from [Bill] {(userId!=null?" where Id in (select BillId from bill_takeaway where customerId="+userId+")":"")} order by createdAt desc";
+            DataTable data = DAO.GetDataBySql(sql);
+            try
+            {
+                List<Bill> list = new List<Bill>();
+                foreach (DataRow row in data.Rows)
+                {
+                    list.Add(new Bill(row));
+                }
+                return list;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+        public static List<Bill> GetListRestaurant(int? userId)
+        {
+            string sql = $"select * from [Bill] where Id in (select billId from bill_detail where productId in (select product.Id from product, category where category.Id=product.categoryId and restaurantId in (select Id from restaurant where ownerId = " + userId + " or Id in( select restaurantId from restaurant_user,restaurant where restaurantId=Id" + (userId == null ? "" : " and (userId = " + userId + ")))") + "))" + " order by createdAt desc";
             DataTable data = DAO.GetDataBySql(sql);
             try
             {

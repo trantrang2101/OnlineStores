@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "t3InjZayzqXR8eNyWPqyDfjyWMN22A0g0OeWUuSv8HxOfZx4bh7JI63nwoF9RVmlqoKpJ0fvpgh9goZ50XS/TQ==",
+  "dgSpecHash": "EDI7Q3kN18BMOe+1t9Cvg0vRLE7xNrfhrNjJv72SlrzC0Pe+cnTdUr3AHMXICeDvPSorZQLiUDkYuBHyjTJxGA==",
   "success": true,
-  "projectFilePath": "D:\\FPT_SE\\PRN211\\OnlineStores\\Assignment\\Assignment.csproj",
+  "projectFilePath": "D:\\FPT_SE\\PRN211\\OnlineStores\\Assignment\\Assignment - Backup.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\win\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\win\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\win\\.nuget\\packages\\mailkit\\3.3.0\\mailkit.3.3.0.nupkg.sha512",
     "C:\\Users\\win\\.nuget\\packages\\microsoft.aspnetcore.authentication\\2.2.0\\microsoft.aspnetcore.authentication.2.2.0.nupkg.sha512",
