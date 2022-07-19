@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\FPT_SE\\PRN211\\OnlineStores\\Assignment\\Assignment.csproj": {}
+    "D:\\.Net Project\\OnlineShop\\Assignment\\Assignment.csproj": {}
   },
   "projects": {
-    "D:\\FPT_SE\\PRN211\\OnlineStores\\Assignment\\Assignment.csproj": {
+    "D:\\.Net Project\\OnlineShop\\Assignment\\Assignment.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\FPT_SE\\PRN211\\OnlineStores\\Assignment\\Assignment.csproj",
+        "projectUniqueName": "D:\\.Net Project\\OnlineShop\\Assignment\\Assignment.csproj",
         "projectName": "Assignment",
-        "projectPath": "D:\\FPT_SE\\PRN211\\OnlineStores\\Assignment\\Assignment.csproj",
-        "packagesPath": "C:\\Users\\win\\.nuget\\packages\\",
-        "outputPath": "D:\\FPT_SE\\PRN211\\OnlineStores\\Assignment\\obj\\",
+        "projectPath": "D:\\.Net Project\\OnlineShop\\Assignment\\Assignment.csproj",
+        "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
+        "outputPath": "D:\\.Net Project\\OnlineShop\\Assignment\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\win\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ADMIN\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -117,7 +117,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.300\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.407\\RuntimeIdentifierGraph.json"
         }
       }
     }

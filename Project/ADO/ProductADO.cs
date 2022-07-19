@@ -60,5 +60,32 @@ namespace Project.ADO
                 return null;
             }
         }
+
+        public static int ChangeProductStatus(int id,bool? status) {
+            string sql = $"UPDATE [dbo].[product] SET [status] = {status} WHERE id = {id}";
+
+            return DAO.ExecuteNonQuery(sql);
+        }
+
+        public static int UpdateProduct(Product product) {
+            String sql = $"UPDATE [dbo].[product]" +
+     $"   SET [name] = '{product.Name}' " +
+     $"      ,[description] = '{product.Description}'" +
+     $"      ,[price] = {product.Price}" +
+     $"      ,[updated_at] = GETDATE()" +
+     $"      ,[categoryId] = {product.CategoryId}" +
+     $"      ,[status] ={product.Status}" +
+     $" WHERE id = {product.Id}";
+            return DAO.ExecuteNonQuery(sql);
+        }
+
+        public static int AddProduct(Product product) {
+            String sql = $"INSERT INTO [dbo].[product]" +
+                $"([name],[description],[price],[categoryId]," +
+                $"[created_at],[status])" +
+                $"VALUES('{product.Name}','{product.Description}',{product.Price},'{product.CategoryId}'," +
+                $"GETDATE(),'{product.Status}')";
+            return DAO.ExecuteNonQuery(sql);
+        }
     }
 }

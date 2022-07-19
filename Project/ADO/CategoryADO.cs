@@ -57,5 +57,26 @@ namespace Project.ADO
                 return null;
             }
         }
+
+        public static int ChangeCategoryStatus(int id,bool? status) {
+            string sql = $"UPDATE [dbo].[category] SET [status] = {status} WHERE id = {id}";
+
+            return DAO.ExecuteNonQuery(sql);
+        }
+
+        public static int UpdateCategory(Category category) {
+            String sql = $"UPDATE [dbo].[category] SET [name] = '{category.Name}',[description] = '{category.Description}',[image] = '{category.Image}',[restaurantId] = {category.RestaurantId},[status] = {category.Status}  WHERE id = {category.Id}";
+
+            return DAO.ExecuteNonQuery(sql);
+        }
+
+        public static int AddCategory(Category category) {
+            String sql = $"INSERT INTO [dbo].[category] ([name],[description]," +
+                $"[image],[restaurantId],[status])" +
+                $"VALUES('{category.Name}','{category.Description}','{category.Image}',{category.RestaurantId},{category.Status})";
+            return DAO.ExecuteNonQuery(sql);
+        }
+
+
     }
 }

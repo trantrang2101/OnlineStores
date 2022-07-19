@@ -508,3 +508,15 @@ GO
 
 UPDATE [dbo].[restaurant] set bank=N'Ngân hàng Quân đội Nhân Dân Việt Nam - MB Bank', accountNumber='3300123456333' where Id=1
 UPDATE [dbo].[restaurant] set bank=N'Ngân hàng Thương mại cổ phần Công Thương Việt Nam - Vietinbank', accountNumber='105873255144' where Id=3
+
+
+DROP PROCEDURE IF EXISTS dbo.USP_ChangeRestaurantStatus
+CREATE PROCEDURE USP_ChangeRestaurantStatus @id int, @status bit
+	-- Add the parameters for the stored procedure here
+AS
+BEGIN
+UPDATE [dbo].[restaurant]
+   SET [is_active] = @status
+
+ WHERE id = @id
+END

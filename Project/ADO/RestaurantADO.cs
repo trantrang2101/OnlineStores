@@ -57,5 +57,38 @@ namespace Project.ADO
                 return null;
             }
         }
+
+        public static int ChangeRestaurantStatus(int id,bool? status) {
+            string sql = $"UPDATE [dbo].[restaurant] SET [is_active] = {status} WHERE id = {id}";
+
+            return DAO.ExecuteNonQuery(sql);
+        }
+
+        public static int UpdateRestaurant(Restaurant restaurant) {
+            String sql = $"UPDATE [dbo].[restaurant]" +
+     $"   SET [name] = '{restaurant.Name}' " +
+     $"      ,[description] = '{restaurant.Description}'" +
+     $"      ,[ownerId] = {restaurant.Id}" +
+     $"      ,[phone] = '{restaurant.Phone}'" +
+     $"      ,[address] = '{restaurant.Address}'" +
+     $"      ,[email] = '{restaurant.Email}'" +
+     $"      ,[is_active] = {restaurant.IsActive}" +
+     $"      ,[updated_at] = GETDATE() " +
+     $"      ,[logo] = {restaurant.Logo}" +
+     $"      ,[bank] = {restaurant.Bank}" +
+     $"      ,[accountNumber] ={restaurant.AccountNumber}" +
+     $" WHERE id = {restaurant.Id}";
+            return DAO.ExecuteNonQuery(sql);
+        }
+
+        public static int AddRestaurant(Restaurant restaurant) {
+            String sql = $"INSERT INTO [dbo].[restaurant]" +
+                $"([name],[description],[ownerId],[phone],[address],[email]," +
+                $"[is_active],[created_at],[logo],[bank],[accountNumber])" +
+                $"VALUES('{restaurant.Name}','{restaurant.Description}',{restaurant.Id},'{restaurant.Phone}'," +
+                $" '{restaurant.Address}','{restaurant.Email}',{restaurant.IsActive},GETDATE(),'{restaurant.Logo}'" +
+                $"'{restaurant.Bank}','{restaurant.AccountNumber}')";
+            return DAO.ExecuteNonQuery(sql);
+        }
     }
 }

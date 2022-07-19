@@ -38,41 +38,21 @@ namespace Project.ADO
             return dt;
         }
 
-        public static int ExecuteNonQuery(String sql, object[] parameters = null)
-        {
-            int dataLineSuccess = -1;
-            try
-            {
-                using (SqlConnection connection = GetConnection())
-                {
-                    SqlCommand command = new SqlCommand(sql, connection);
-                    connection.Open();
-                    if (parameters != null)
-                    {
-                        string[] listPara = sql.Split(' ');
-                        int i = 0;
-                        foreach (String item in listPara)
-                        {
-
-                            if (item.Contains('@'))
-                            {
-                                command.Parameters.AddWithValue(item, parameters[i]);
-                                i++;
-                            }
-                        }
-                    }
-                    dataLineSuccess = command.ExecuteNonQuery();
-
-                }
+        public static int ExecuteNonQuery(String sql) {
+            int dataLineSuccess;
+            try {
+                SqlConnection connection = GetConnection();
+                SqlCommand command = new SqlCommand(sql,connection);
+                connection.Open();
+                dataLineSuccess = command.ExecuteNonQuery();
+                connection.Close();
+            } catch (Exception) {
+                throw;
+                return -1;
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.StackTrace);
-
-            }
-
 
             return dataLineSuccess;
         }
+
     }
 }
