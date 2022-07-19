@@ -63,5 +63,10 @@ namespace Project.Controllers
             model.List = restaurants.Skip(page * 16).Take(16);
             return View(view, model);
         }
+
+        public IActionResult Infor() {
+
+            return View();
+        }
     }
 }

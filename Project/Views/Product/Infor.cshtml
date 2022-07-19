@@ -1,0 +1,59 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<!DOCTYPE html>
+<head>
+    <title>Tên Món Ăn</title>
+</head>
+<body>
+    <form>
+
+        <legend>Thông tin món ăn</legend>
+        <div>
+            <label for="name">Tên:</label>
+            <input type="text" name="name" id="name" />
+        </div>
+        <br />
+        <div>
+            <label for="price">Giá tiền:</label>
+            <input type="number" name="price" id="price" />
+        </div>
+        <br />
+        @*chỉ khi nào xem thông tin của một quán cụ thể mới hiển thị*@
+        <div>
+            <label for="created_at">Ngày tạo:</label>
+            <input type="text" name="created_at" id="created_at" disabled />
+        </div>
+        <br />
+        <div>
+            <label for="updated_at">Cập nhập lần cuối:</label>
+            <input type="text" name="updated_at" id="updated_at" disabled />
+        </div>
+        @*--------------------------------------------------------*@
+        <br />
+        <div>
+            <label for="category">Category:</label>
+
+            <select id="categoryid">
+                <option value="">Món nổi bật</option>
+                <option value="">Trà Sữa - Milk Tea</option>
+                <option value="">Trà Trái Cây - Fresh Fruit Tea</option>
+                <option value="">Macchiato Cream Cheese</option>
+            </select>
+        </div>
+        <br />
+        <div>
+            <input type="radio" id="active" name="status" value="active">
+            <label for="active">Kích hoạt</label><br>
+            <input type="radio" id="inactive" name="status" value="inactive">
+            <label for="inactive">Vô hiệu hóa</label><br>
+        </div>
+        <br />
+        <div>
+            <label for="description">Mô tả:</label>
+            <textarea id="description" name="description">  </textarea>
+        </div>
+    </form>
+</body>

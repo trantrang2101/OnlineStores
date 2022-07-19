@@ -269,3 +269,6 @@ D:\.Net Project\OnlineShop\Project\obj\Debug\net5.0\Project.dll
 D:\.Net Project\OnlineShop\Project\obj\Debug\net5.0\ref\Project.dll
 D:\.Net Project\OnlineShop\Project\obj\Debug\net5.0\Project.pdb
 D:\.Net Project\OnlineShop\Project\obj\Debug\net5.0\Project.genruntimeconfig.cache
+D:\.Net Project\OnlineShop\Project\obj\Debug\net5.0\Razor\Views\Restaurant\Infor.cshtml.g.cs
+D:\.Net Project\OnlineShop\Project\obj\Debug\net5.0\Razor\Views\Product\Infor.cshtml.g.cs
+D:\.Net Project\OnlineShop\Project\obj\Debug\net5.0\Razor\Views\Category\Infor.cshtml.g.cs
